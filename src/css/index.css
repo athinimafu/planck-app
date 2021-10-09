@@ -1,0 +1,386 @@
+::-webkit-scrollbar {
+    cursor:pointer;
+    width:8px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgb(14,14,14); 
+}
+   
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(24, 24, 64); 
+}
+  
+  /* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(50, 50, 84); 
+}
+
+html {
+    background-color:rgb(14,14,14);
+    color:rgb(224,224,224);
+    overflow: hidden;
+}
+
+body {
+    background-color: rgb(14,14,14);
+    color:rgb(224,224,224);
+}
+#app {
+    background-color: rgb(14,14,14);
+    color:rgb(224,224,224);
+}
+
+.basic-default h1 {
+    text-align: center;
+}
+@media (prefers-color-scheme:light) {
+    body {
+        background-color: rgb(224,224,224);
+        color:rgb(14,14,14);
+    }
+}
+button.button-default {
+    margin-top: 10%;
+    background-color: rgb(80,80,245);
+    color:rgb(224,224,224);
+    border:none;
+}
+button.button-default:hover {
+    background-color: rgb(54,54,54);    
+}
+
+.angry-moon {
+    fill:rgb(40, 245, 245);
+    width: 100px;
+    height:100px;
+}
+.infinity,.flower {
+    background-color:rgb(14,14,14);
+    fill:rgb(50, 50, 84);
+    width:100px;
+    height:100px;
+}
+
+.flower {
+    margin-top:2%;
+}
+
+.block-default {
+    display:flex;
+    align-content: space-around;
+    justify-content: center;
+}
+
+.file-name {
+    margin-right:2%;
+}
+
+.file-button {
+    margin-left:10%;
+}
+.file-button:hover {
+    color:rgb(40, 245, 245);
+}
+
+.run-icon {
+    background-color: rgb(14,14,14);
+    fill:rgb(40, 245, 245);
+    width:20px;
+    height:20px;
+    margin-right:2%;
+}
+
+
+
+.run-icon:hover {
+    fill:rgb(224,224,224);
+}
+
+.file-run {
+    margin-left:3%;
+}
+.file-run:hover {
+    color:rgb(40, 245, 245);
+}
+
+.file-stop {
+    margin-left:3%;
+}
+.file-stop:hover {
+    color:rgb(114,114,114);
+}
+
+.welcome-prompt {
+    color:rgb(50, 50, 84);
+}
+
+.horizontal {
+    box-shadow: 0px 4px 4px black;
+    background-color:rgb(14,14,14);
+    padding:0px;
+    margin:0px;
+}
+
+.save-button {
+    background-color: rgb(40, 245, 245);
+    color:rgb(14,14,14);
+    border-radius: 4px;
+    border:none;
+    padding: 1% 2%;
+}
+.save-button:hover {
+    background-color:rgb(114,114,114);
+}
+
+
+.directory {
+    overflow-y: scroll;
+    scroll-behavior: auto;
+    max-height: 620px;
+    width:99%;
+}
+
+@media screen and (max-width:620px) {
+    .directory {
+        display: hidden;
+    }
+    .directory-side {
+        display:hidden;
+    }
+    .text-editor {
+        width:100%;
+    }
+}
+
+.side {
+    overflow-y: scroll;
+    scroll-behavior: auto;
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+}
+
+textarea {
+    position: relative;
+    resize: none;
+    height: 625px;
+}
+
+#code {
+    min-width:100%;
+    min-height:500px;
+    max-height: 500px;
+    background-color: rgb(14,14,14);
+    color:rgb(224,224,224);
+    border:none;
+}
+
+.directory-side {
+    position: relative;
+    width:35%;
+    box-shadow: -2px 0px 1px black;
+    padding-bottom:30%;
+    padding-left:2%;
+    padding-right: 0%;
+}
+
+.dashboard-file-name {
+    min-width: 20%;
+    max-width: 20%;
+    flex:1;
+    display: inline-block;
+    background-color: rgb(14,14,14);
+    color:rgb(114,114,114);
+}
+.dashboard-file-name:hover {
+    background-color: rgb(24,24,24);
+}
+.dashboard-file-name-current {
+    min-width: 20%;
+    max-width:20%;
+    flex:1;
+    display: inline-block;
+    background-color: rgb(24,24,24);
+    color:rgb(114,114,114);
+}
+
+.file-dashboard {
+    overflow-x:scroll;
+    /*scroll-behavior: scroll;*/
+    max-width:100%;
+    display:flex;
+    width:100%;
+    min-height: 5%;
+    max-height: 5%;
+    margin-top: 1%;
+    padding-bottom:0;
+
+}
+
+.file-dashboard::-webkit-scrollbar {
+    height:8px;
+}
+
+.side {
+    overflow-y:auto;
+    scroll-behavior: smooth;
+}
+.text-editor {
+    position: relative;
+    overflow-y: auto;
+    scroll-behavior: auto;
+    width:64.66666%;
+}
+
+.not-saved {
+    min-width:20px;
+    min-height: 5px;
+    width:20px;
+    height:5px;
+    border-radius: 5px;
+    background-color: rgb(40, 245, 245);
+    margin-left:3%;
+}
+
+.new-node-modal {
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.new-node-modal-content {
+    background-color: rgb(14,14,14);
+    margin: auto;
+    padding: 40px;
+    border: none;
+    width: 40%;
+    box-shadow: 0 0 4px black;
+}
+
+.new-node-header {
+    font-size: 18px;
+    margin-bottom: 5%;
+}
+
+.file-cancel-icon {
+    float: right;
+}
+.file-cancel-icon:hover {
+    fill:rgb(114,114,114);
+}
+
+input.new-node-input {
+    background-color: rgb(24,24,24);
+    color:white;
+    border:none;
+    margin-right:5%;
+}
+
+.new-node {
+    border:none;
+    background-color: rgb(40, 245, 245);
+    color:rgb(14,14,14);
+}
+
+.unsaved-icon {
+    fill:rgb(40, 245, 245);
+}
+
+.save-icon {
+    width:18px;
+    height:18px;
+    margin-right:2%;
+}
+
+.list-default {
+    background-color: rgb(14,14,14);
+    color: rgb(224,224,224);
+    padding: 1% 2%;
+    margin:0px;
+    width:100%;
+    border-radius: 3px;
+}
+.list-default:hover { 
+    color:rgb(114,114,114); 
+    background-color: rgb(24,24,24);
+    cursor:pointer;
+}
+
+div.block-raised {
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 2%;
+}
+
+.file-icon {
+    width:20px;
+    height:20px;
+    margin-right: 1%;
+}
+
+.folder-icon {
+    width:20px;
+    height:20px;
+    margin-right: 1%;
+    background-color: rgb(14,14,14);
+    fill:rgb(224,224,224);
+}
+.folder-icon:hover {
+    width:20px;
+    height:20px;
+    background-color: rgb(24,24,44);
+    fill: rgb(40, 245, 245);
+}
+
+div.block-raised div.block-raised {
+    box-shadow: 0px 0px 4px black;
+    float:center;
+    border-radius: 4px;
+    width:150px;
+    height: 150px;
+    border:none;
+}
+
+svg.block-raised {
+    width:90px;
+    height:90px;
+}
+
+span.block-raised {
+    color:rgb(224,224,224);
+    font-size: 8px;
+    float:center;
+}
+.flow:hover {
+    background-color: rgb(24,24,24);
+    color:rgb(14,14,14);
+}
+
+.file-path {
+    font-size: 22px;
+    margin-bottom:4%;
+}
+
+.folder-name {
+    color:rgb(80,80,245);
+}
+
+.cancel-icon {
+    background-color: rgb(14,14,14);   
+    fill: rgb(247, 17, 17);
+}
+.cancel-icon:hover {
+    fill:rgb(252, 42, 42)
+}

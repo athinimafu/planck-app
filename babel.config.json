@@ -1,0 +1,7 @@
+{
+    "presets":["@babel/preset-env","@babel/preset-react"],
+    "plugins":["@babel/plugin-transform-classes"],
+    "targets":{
+        "electron":"13.1.4"
+    }
+}

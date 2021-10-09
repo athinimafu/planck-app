@@ -1,0 +1,85 @@
+
+/home/uncle-shaggy/programs/projects/planck/planck_app/src/main.js
+    2:30  error  Extra semicolon                                 semi
+    3:22  error  Strings must use doublequote                    quotes
+    3:29  error  Extra semicolon                                 semi
+    4:56  error  Extra semicolon                                 semi
+    6:13  error  Strings must use doublequote                    quotes
+    7:1   error  Expected indentation of 4 spaces but found 2    indent
+    7:13  error  Extra semicolon                                 semi
+   11:5   error  Strings must use doublequote                    quotes
+   14:5   error  Strings must use doublequote                    quotes
+   19:21  error  Extra semicolon                                 semi
+   20:25  error  Extra semicolon                                 semi
+   21:25  error  Extra semicolon                                 semi
+   27:27  error  Extra semicolon                                 semi
+   30:57  error  Extra semicolon                                 semi
+   31:26  error  Extra semicolon                                 semi
+   51:63  error  Extra semicolon                                 semi
+   53:74  error  Extra semicolon                                 semi
+   54:18  error  Extra semicolon                                 semi
+   59:24  error  Promise executor functions should not be async  no-async-promise-executor
+   77:1   error  Expected indentation of 8 spaces but found 9    indent
+   77:59  error  Extra semicolon                                 semi
+   78:1   error  Expected indentation of 12 spaces but found 16  indent
+   78:31  error  Extra semicolon                                 semi
+   79:1   error  Expected indentation of 12 spaces but found 16  indent
+   79:23  error  Extra semicolon                                 semi
+   83:22  error  Extra semicolon                                 semi
+   84:48  error  Extra semicolon                                 semi
+   86:65  error  Extra semicolon                                 semi
+   88:46  error  Extra semicolon                                 semi
+  103:50  error  Unnecessary semicolon                           no-extra-semi
+  105:70  error  Strings must use doublequote                    quotes
+  105:92  error  Extra semicolon                                 semi
+  106:35  error  Extra semicolon                                 semi
+  108:47  error  Extra semicolon                                 semi
+  112:34  error  Extra semicolon                                 semi
+  116:2   error  Extra semicolon                                 semi
+  121:8   error  Strings must use doublequote                    quotes
+  121:30  error  Extra semicolon                                 semi
+  126:8   error  Strings must use doublequote                    quotes
+  127:1   error  Expected indentation of 4 spaces but found 2    indent
+  127:28  error  Strings must use doublequote                    quotes
+  128:1   error  Expected indentation of 8 spaces but found 4    indent
+  128:15  error  Extra semicolon                                 semi
+  129:1   error  Expected indentation of 4 spaces but found 2    indent
+  130:3   error  Extra semicolon                                 semi
+  132:8   error  Strings must use doublequote                    quotes
+  133:1   error  Expected indentation of 4 spaces but found 2    indent
+  134:1   error  Expected indentation of 4 spaces but found 2    indent
+  135:1   error  Expected indentation of 4 spaces but found 2    indent
+  136:1   error  Expected indentation of 8 spaces but found 4    indent
+  136:19  error  Extra semicolon                                 semi
+  137:1   error  Expected indentation of 4 spaces but found 2    indent
+  138:3   error  Extra semicolon                                 semi
+  142:34  error  'e' is defined but never used                   no-unused-vars
+  142:36  error  'data' is defined but never used                no-unused-vars
+  144:55  error  Extra semicolon                                 semi
+  146:42  error  Extra semicolon                                 semi
+  148:43  error  Extra semicolon                                 semi
+  154:21  error  Strings must use doublequote                    quotes
+  155:48  error  Strings must use doublequote                    quotes
+  158:59  error  Extra semicolon                                 semi
+  163:13  error  Extra semicolon                                 semi
+  165:61  error  Extra semicolon                                 semi
+  168:16  error  Strings must use doublequote                    quotes
+  168:44  error  Extra semicolon                                 semi
+  170:25  error  Strings must use doublequote                    quotes
+  170:29  error  Strings must use doublequote                    quotes
+  170:34  error  Extra semicolon                                 semi
+  172:16  error  Extra semicolon                                 semi
+  174:1   error  'nam' is not defined                            no-undef
+  174:7   error  Strings must use doublequote                    quotes
+  174:12  error  Extra semicolon                                 semi
+  181:64  error  Extra semicolon                                 semi
+  183:14  error  Empty block statement                           no-empty
+  190:39  error  Extra semicolon                                 semi
+  191:41  error  Extra semicolon                                 semi
+  193:84  error  Extra semicolon                                 semi
+  195:14  error  Empty block statement                           no-empty
+  202:55  error  Extra semicolon                                 semi
+  209:30  error  Extra semicolon                                 semi
+
+✖ 80 problems (80 errors, 0 warnings)
+  74 errors and 0 warnings potentially fixable with the `--fix` option.
