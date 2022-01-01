@@ -35,7 +35,7 @@ class HtmlCSSParser extends BaseClass {
         let _htmlRelativePath = dep.match(_e.NAME_EXP)[0];
         console.log( ' paths css: ',dep.match(_e.NAME_EXP)[0] );
         //return file.
-        return _path.resolve(this.main_path,_htmlRelativePath);
+        return _path.resolve(this.base_path,_htmlRelativePath);
     }
     
     
@@ -85,6 +85,7 @@ class HtmlCSSParser extends BaseClass {
     async extractHtml(javascript_main) 
     {
         //obtain the path to the html file.
+        console.log(" base and main ",this.base_path," main ",this.main)
         let html_path = _path.resolve(this.base_path,this.main);
         let htmlCode ;
         try {

@@ -19,33 +19,23 @@ class ModelProcess {
         this.jsParser;
         this.project_type = project_type;
         this.project_init_complete = false;
-        if (basepath && project_type == "javascript" )   {
-            return this.init();
-        }
+        this._init = false;
     }
 
     setBaseDir(base) { 
         this._base = base;
-        if ( this.project_type == "javascript" ) return this.init();
+        //if ( this.project_type == "javascript" ) return this.init();
     }
 
     getDependencies() 
     {
-        return Object.keys(this.dependencies);
+        return [ ...Object.keys(this.dependencies.js),...Object.keys(this.dependencies.css) ];
+        
     }
 
     init() 
     {
-        return this.readPackageJsonFile().then(() => {
-            //if mainfound boolean is active transform project
-            //source code.
-            if (this.jsFound && this.htmlFound) { 
-                return this.transformProject().then(() => {
-                    console.log(this.dependencies);
-                    return true;
-                })
-            }
-        }) 
+        return this.readPackageJsonFile();
     }
 
     /** read the project package.json file that should be given in the base path.  */
@@ -62,37 +52,43 @@ class ModelProcess {
         //parse config json file to object.
         configJSON = JSON.parse(configJSON)
         //if no main file is defined wait until definition or gui startup.
-
+        console.log(' configuration taking place. ');
         jsFilePath =  configJSON.index;
+        //console.log("base ",this._base);
         if (jsFilePath) {
             this.jsFilePath = jsFilePath;
             this.jsParser = new JsParser({ main_path:jsFilePath,base_path:this._base });
             this.jsFound = true;
+            this.jsParser.determineFrameWorks(configJSON);                       //determine the frameworks javascript project is using.
         }
         //obtain the html file.
         htmlFilePath = configJSON.indexHtml;
         if (htmlFilePath) {
             this.htmlFilePath = htmlFilePath;
-            this.HtmlCSSParser = new HtmlCSSParser({ main_path:htmlFilePath,base_path:this._base });
+            const main = htmlFilePath.split("/")[htmlFilePath.split('/').length-1];
+            this.HtmlCSSParser = new HtmlCSSParser({ main,main_path:htmlFilePath,base_path:this._base });
             this.htmlFound = true;
         }
-        console.log(' main file ',mainFile,' html file ',htmlFile);
         return true;
     }
 
-    /** 
+    /********************************************************************************************* 
      * start transpilation process when the base path and javascript file is found.  
      * determine whether both the main access javascript file is present and
      * the  main html index file is present.If those aren't present then 
      * throw errors as this functionality is called only after those are read if therefore
      * meaining they were not provided in the package.json file.
-    */
+    **********************************************************************************************/
      async transformProject() 
      {
+         if (this._base && this.project_type == "javascript" )   {
+            await this.init();
+         }
+         console.log(" base project transformed ");
          if ( !this.jsFound ) { throw Error('javascript file not found'); }
          if ( !this.htmlFound ) { throw Error(' html file not found '); }
          
-         //transpile the javascript code an=long with all it's dependencies.
+         //transpile the javascript code along with all it's dependencies.
          await this.jsParser.transformProject();
          
          //extract the html code along with any css dependencies passed the absolute path of the main js parser.
@@ -103,7 +99,9 @@ class ModelProcess {
 
          this.dependencies = {
              js:this.jsParser.dependencyMap,
-             css:this.HtmlCSSParser.cssDependencyMap
+             css:this.HtmlCSSParser.cssDependencyMap,
+             frameworks:this.jsParser.frameworks,
+             info:this.jsParser.indexData
          }
      }
      /** on the gui application start check if transformation of
@@ -112,12 +110,12 @@ class ModelProcess {
      */
     async guiStartup()
     {
-        if ( !this.mainFound || !this.htmlFound ) {
+        if ( !this.jsFound || !this.htmlFound ) {
             return this.readPackageJsonFile().then(() =>
                 {
                     //if mainfile is still not found throw error depicting problem
                     //to user.
-                    if (!this.mainFound || !this.htmlFound) {
+                    if (!this.jsFound || !this.htmlFound) {
                         throw Error(' essential files not defined. ');
                     }
                     //return transformed dependencyMap.
@@ -132,19 +130,22 @@ class ModelProcess {
     async getProjectData() 
     {
         return {
-            sourceCode:this.HtmlCSSParser.htmlCode,
+            sourceCode:{ ...this.HtmlCSSParser.data.sourceCode },
             dependencyMap:this.dependencies
+
         }
     }
 
     /** functionality which updates css or js code. */
     async updateCode(data)
     {
+
         switch(data.language)            
         {
             case 'css':
                 return this.HtmlCSSParser.updateCSSCode(data);
             case 'javascript':
+                console.log(" executing javascript process. ");
                 return this.jsParser.updateJSCode(data);
         }
     }

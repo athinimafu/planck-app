@@ -11,7 +11,8 @@ class BaseClass {
     /* extracts filename */
     __extractFileName(dependency)
     { 
-        return dependency.match(_.NAME_EXP)[0].replace(_.PATH_EXP,'');
+        console.log(" dependancy name ",dependency.match(_.NAME_EXP)[0].replace(_.PATH_EXP,''));
+        return dependency.match(_.NAME_EXP)[0].replace('.js','');
     }
  
     __setBasePath(_path,additional)
@@ -22,6 +23,7 @@ class BaseClass {
             if (this.base_path.includes(adds[g])) break;
             if (!adds[g].match(/(.jsx|.js|.html|.css)/)) _base = adds[g].concat(`/${_base}`);
         }
+        console.log(" base path: "+this.base_path," new base ",_base);
         this.main_path = path.resolve(this.base_path,_base);
     }
     
@@ -29,7 +31,7 @@ class BaseClass {
     __extractPath(dep,parent)
     {
         let paths = parent.split('/');
-        let _base = this.main_path;
+        let _base = this.base_path;
         for (let g = 0;g <= paths.length-1;g++) {
             if (paths[g].search(/(.jsx|.js|.html)/) != -1) continue;
             if (!_base.includes(paths[g])) _base = path.resolve(_base,paths[g]);

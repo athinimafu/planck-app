@@ -84,7 +84,10 @@ ipcRenderer.on(E.DIR_PRESENT, async e => {
     ;
   }
 
-  ipcRenderer.send(E.DIR_PRESENT, currentDirectory);
+  ipcRenderer.send(E.DIR_PRESENT, {
+    currentDirectory,
+    PROJECT_TYPE: project.type
+  });
 });
 /**save current file being worked on. */
 

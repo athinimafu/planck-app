@@ -1,9 +1,9 @@
-const { BrowserWindow, ipcMain,nativeTheme,dialog,app,Menu,MenuItem,globalShortcut } = require("electron")
+const { BrowserWindow, ipcMain,nativeTheme,dialog,app,Menu,MenuItem,globalShortcut, systemPreferences } = require("electron")
 const E = require("./events");
 const path = require('path');
 const DirectoryActions  = require("./directoryActions");
-//const JavascriptProcess = require('./languages/js/JsProcess');
 const ModelProcess = require("./languages");
+console.log(" Current model process ",ModelProcess);
 const menu = new Menu();
 
 let LanProcess = null;
@@ -185,9 +185,10 @@ ipcMain.handle(E.UI_MODE_TOGGLE,(e) => {
 })
 
 ipcMain.on(E.DIR_PRESENT,(e,present) => {
-    CURRENT_DIRECTORY = present;
+    CURRENT_DIRECTORY = present.currentDirectory;
+    PROJECT_TYPE = present.PROJECT_TYPE;
     LanProcess = new ModelProcess(CURRENT_DIRECTORY,PROJECT_TYPE);
-    LanProcess.setBaseDir(present);
+    LanProcess.setBaseDir(CURRENT_DIRECTORY);
     //enable global shortcuts for new file creation and
     //new directory creation
     globalShortcut.register("Ctrl+n",() => newNode('file'));
@@ -250,13 +251,17 @@ ipcMain.handle(E.OPEN_DIR_PROMPT,(e,projectType) => {
         if (data.canceled) return data;
         CURRENT_DIRECTORY = data.filePaths[0];
         LanProcess = new ModelProcess(CURRENT_DIRECTORY,PROJECT_TYPE);
+        console.log(" process ",LanProcess);
         switch(PROJECT_TYPE) {
             case 'javascript':
+                console.log(" javascript process ");
                 LanProcess.transformProject()
                     .then(() => 
                     {
-                        if (JavascriptProcess.project_init_complete) {
-                            let deps = JavascriptProcess.getDependencies();
+                        console.log(" project transformation. ");
+                        if (LanProcess.project_init_complete) {
+                            console.log(" project complete ",LanProcess.project_init_complete);
+                            let deps = LanProcess.getDependencies();
                             //send project dependencies to main window.
                             ipcSend(mainWindow,E.PROJECT_DEP,deps);
                         }
@@ -266,6 +271,7 @@ ipcMain.handle(E.OPEN_DIR_PROMPT,(e,projectType) => {
         return data;
     });
 })
+
 
 ipcMain.handle(E.OPEN_FILE,async (e,{ filepath,newlyCreated }) => {
     //console.log(" filepath obtained ",filepath);
@@ -328,8 +334,8 @@ ipcMain.on(E.RUN_GUI,async (e,{ filepath,project,sourceCode }) =>
 //in the instance when the gui is to be automatically updated
 ipcMain.on(E.UPDATE_GUI,async (e,{ sourceCode,path,lang }) => {
     //we send updated source code to the renderer process of the gui.
-    //console.log("updating renderer gui.");
     if (PROJECT_TYPE == 'javascript') {
+        console.log(" project type is javascript");
         try {
             sourceCode = await LanProcess.updateCode({ sourceCode,path,language:lang });
         }

@@ -129,6 +129,7 @@ function _$NumbersScope() {
         key: "render",
         value: function render() {
           console.log(" mapping numbers ", this.state.numbers);
+          console.log(" current props  ", this.props);
           const $this = this;
           return /*#__PURE__*/ _react.default.createElement(
             "div",
