@@ -153,9 +153,21 @@ module.exports = {
   //functionality for fetching the current file being worked on.
   async fetchFile() {
     //save database file.
-    this.functionality.saveFile(); //return file currently being worked on.
+    this.functionality.saveFile();
+    let project = {};
 
-    return await db.getValue('currentFile');
+    try {
+      project = await db.getValue("project");
+    } catch (e) {
+      console.log(" error occured ", e);
+    } //return file currently being worked on.
+
+
+    return db.getValue('currentFile').then(file => {
+      return { ...file,
+        update_code: project.dependencies.includes(file.path)
+      };
+    });
   },
 
   //inform ui state of creation of a new file.

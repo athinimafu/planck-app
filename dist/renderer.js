@@ -103,12 +103,16 @@ ipcRenderer.on(E.SAVE_FILE, async () => {
 
   let {
     path,
-    sourceCode
+    sourceCode,
+    update_code,
+    fileType
   } = fileObject; //save file to sys call.
 
   return saveFiletoSys({
     filepath: path,
-    sourceCode
+    sourceCode,
+    update_code,
+    lang: fileType
   });
 }); //gui updater.
 
@@ -117,15 +121,18 @@ GUIUpdater.init(saveFiletoSys, ApplicationState);
 function saveFiletoSys({
   filepath,
   sourceCode,
-  update_code
+  update_code,
+  lang
 }) {
   //send sourcecode and filepath to main process to be saved to the filesystem.
   ipcRenderer.send(E.SAVE_FILE, {
     filepath,
-    sourceCode
+    sourceCode,
+    lang,
+    update_file: update_code && !GUIUpdater.isProcessRenderering()
   }); //update application state.
 
-  if (update_code)
+  if (update_code && GUIUpdater.isProcessRenderering())
     /** update gui's code. */
     GUIUpdater.updateCode(); //save file.
 
@@ -214,6 +221,7 @@ const functionality = {
   //functionality to edit gui.
   editFile({
     sourceCode,
+    language,
     isRunning
   }) {
     if (isRunning)
@@ -225,7 +233,8 @@ const functionality = {
 
     return $funcs.editFile({
       sourceCode,
-      isRunning
+      isRunning,
+      language
     });
   },
 

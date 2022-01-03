@@ -122,12 +122,12 @@ const TextEditor = ({
     return saveFile({
       filepath: path,
       sourceCode,
-      update_code: updateGUI
+      update_code: updateGUI,
+      lang: fileType
     });
   };
 
   let runFile = e => {
-    console.log(" file being run. ");
     return runProjectRendering({
       filepath: path,
       projecttype: project.type,

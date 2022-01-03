@@ -5,6 +5,7 @@ const E = require("./events");
 const _path = require('path');
 const { windowsStore } = require("process");
 
+
 /** in the case of an application startup we set application ui 
  * according to one of 3 possible cases:
  *  -"FIRST TIME":
@@ -68,20 +69,20 @@ ipcRenderer.on(E.SAVE_FILE,async () => {
         console.log(" unable to fetch file from front-end db. ",e);
         return;
     }
-    let { path,sourceCode } = fileObject;
+    let { path,sourceCode,update_code,fileType } = fileObject;
     //save file to sys call.
-    return saveFiletoSys({ filepath:path,sourceCode });
+    return saveFiletoSys({ filepath:path,sourceCode,update_code,lang:fileType });
 })
 
 //gui updater.
 GUIUpdater.init(saveFiletoSys,ApplicationState);
 
-function saveFiletoSys({filepath,sourceCode,update_code}) {
+function saveFiletoSys({filepath,sourceCode,update_code,lang }) {
     //send sourcecode and filepath to main process to be saved to the filesystem.
     
-    ipcRenderer.send(E.SAVE_FILE,{ filepath,sourceCode });
+    ipcRenderer.send(E.SAVE_FILE,{ filepath,sourceCode,lang,update_file:update_code && !GUIUpdater.isProcessRenderering() });
     //update application state.
-    if (update_code) /** update gui's code. */
+    if (update_code && GUIUpdater.isProcessRenderering() ) /** update gui's code. */
         GUIUpdater.updateCode();
     //save file.
     $funcs.saveFile();
@@ -136,11 +137,11 @@ const functionality = {
         return ipcRenderer.send(E.STOP_GUI);
     },
     //functionality to edit gui.
-    editFile({ sourceCode,isRunning }) 
+    editFile({ sourceCode,language,isRunning }) 
     {
         if (isRunning) /* if gui process is running we update it. */
             {GUIUpdater.updateTime(); console.log(" running code "); }
-        return $funcs.editFile({ sourceCode,isRunning });
+        return $funcs.editFile({ sourceCode,isRunning,language });
     },
     //functionality for creating a new file.
     createNode(nodename,type) 

@@ -274,6 +274,25 @@ class JsParser extends BaseParser {
        }
     }
 
+
+    /**
+     * *************************************************************************************
+     * @param sourceCode of the dependency we are working with.
+     * @param path  file path of the dependency we are working with.
+     * @param index dependency index of the current source code.
+     * @param currentDependencies list of the current dependencies the source code has.
+     * *************************************************************************************
+     */
+    async findNewDependency({ sourceCode,index,path,currentDependencies })
+    {
+        let all_dependencies = this.__getdependencies(sourceCode,index == 0);              // obtain a list of all the dependencies
+        if ( currentDependencies.length() == all_dependencies.length() ) return false;
+
+        return await this.mapdependencies(sourceCode,path,index);                          // if new dependency is present we call mapdependencies function.
+
+    }
+
+
     /**
      * **********************************************************************************
     * takes newly written ECMA 6+ source Code and create corresponding
@@ -284,9 +303,15 @@ class JsParser extends BaseParser {
     */
     async updateJSCode(data)
     {
-        console.log(" js update ");
-        let { variableName,_dependencies } = this.dependencyMap[data.path];
+        let { variableName,_dependencies,index } = this.dependencyMap[data.path];
         let { sourceCode } = data;
+        try {
+            let found = await this.findNewDependency({
+                sourceCode,index,path,currentDependencies:_dependencies 
+            })        //function determines if code has any new dependencies and if so executes proper operations.
+            if (found) _dependencies = this.dependencyMap[data.path]._dependencies;
+        }
+        catch(e) {}
         console.log(" updating code... ",_dependencies);
         for (let dep of _dependencies) {
             let _depName = this.__extractFileName(dep);
@@ -308,9 +333,14 @@ class JsParser extends BaseParser {
         transpiledSourceCode = transpiledSourceCode.replace(EXPORTS_REP_EXP,'');
         transpiledSourceCode = transpiledSourceCode.replace(EXPORTS_EXP,`window._\$${variableName}`)
         //return updated source code.
-        return this.applyFunctionScope({ variableName,sourceCode:transpiledSourceCode })
+        const scopedSourceCode =  this.applyFunctionScope({ variableName,sourceCode:transpiledSourceCode })
+
+        this.dependencyMap[data.path] = { ...this.dependencyMap[data.path],sourceCode:scopedSourceCode }; //update dependency code.
+
+        return scopedSourceCode;
     } 
     
+
     /**set the global variable of each javascript dependency so they will be a available 
      * to the global scope of the dom window.
      */

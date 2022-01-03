@@ -14,6 +14,7 @@ const ProcessGUI = {
         this.updateInterval = null;
         this._saveFunc = saveFunc;
         this._appState = AppState;
+        this._process_running = false;
     },
 
     /**set language currently in use in the project. */
@@ -21,6 +22,7 @@ const ProcessGUI = {
 
     /** functionality which moniters changes to the gui then sends appropriate updates to main process. */
     monitorUpdate() {
+        this._process_running = true;
         this.updateInterval = setInterval(() => {
             if (this._time <= 0) return;
             if (Date.now() - this._time > this._int) {
@@ -30,6 +32,8 @@ const ProcessGUI = {
             }
         },this._int);       
     },
+
+    isProcessRenderering() { return this._process_running },  //if process is running or not.
 
     /* functionality which updates code. */
     updateCode() { 
@@ -50,6 +54,10 @@ const ProcessGUI = {
     updateTime() { this._time = Date.now() },
 
     /* stop gui monitering process --> this likely means gui process has been killed */
-    stopMonitoring() { clearInterval(this.updateInterval);this._time = -1; }
+    stopMonitoring() 
+    { 
+        clearInterval(this.updateInterval);this._time = -1; 
+        this._process_running = false;
+    }
 }
 module.exports = ProcessGUI;

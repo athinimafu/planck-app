@@ -287,8 +287,8 @@ ipcMain.handle(E.OPEN_FILE,async (e,{ filepath,newlyCreated }) => {
 })
 
 //in the instance where updated source code is to be saved.
-ipcMain.on(E.SAVE_FILE,async (e,{filepath,sourceCode}) => {
-    //console.log(`filepath being saved to.${filepath.trim()} source code ${sourceCode} `);
+ipcMain.on(E.SAVE_FILE,async (e,{filepath,sourceCode,update_file,lang }) => 
+{
     try 
     {
         //write the updated code to the filesystem.
@@ -296,6 +296,7 @@ ipcMain.on(E.SAVE_FILE,async (e,{filepath,sourceCode}) => {
     }
     catch(e) { throw e; }
     console.log(" written to successfully ");
+    if ( update_file ) await LanProcess.updateCode({ sourceCode,path:filepath,language:lang })
 })
 
 //in the instance when the user wishes to run the rendered gui of the
@@ -341,7 +342,7 @@ ipcMain.on(E.UPDATE_GUI,async (e,{ sourceCode,path,lang }) => {
         }
         catch(e) { /** source code unable to be updated. */ }
     }
-    ipcSend(ProcessWindow,E.UPDATE_GUI,{ sourceCode,path });
+    ipcSend(ProcessWindow,E.UPDATE_GUI,{ sourceCode,path,lang });
 })
 
 //in the instance when the gui process is requested to be stoppped.

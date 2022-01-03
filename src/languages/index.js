@@ -110,7 +110,7 @@ class ModelProcess {
      */
     async guiStartup()
     {
-        if ( !this.jsFound || !this.htmlFound ) {
+        if ( (!this.jsFound || !this.htmlFound) ) {
             return this.readPackageJsonFile().then(() =>
                 {
                     //if mainfile is still not found throw error depicting problem
@@ -122,6 +122,7 @@ class ModelProcess {
                     return this.transformProject().then(() =>  {  return this.getProjectData(); })
                 })
         }
+
         //simply return dependencyMap.
         return this.getProjectData();
     }

@@ -221,8 +221,6 @@ const Fonst = {
     return applicationState;
   },
 
-  mapProjectSystems() {},
-
   /** determine whether the project's currently open files have been changed.
    * if they have then update the openFiles attribute to contain these newly contained
    * open files.

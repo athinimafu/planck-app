@@ -61,11 +61,10 @@ const TextEditor = ({ saveFile,currentFile,editFile,data,isNew,runProjectRenderi
     let FileIcon =  types[fileType] || (() => { return ''; })
     let onClick = (e) => { 
         console.log(" current source code ",sourceCode);
-        return saveFile({ filepath:path,sourceCode,update_code:updateGUI }); 
+        return saveFile({ filepath:path,sourceCode,update_code:updateGUI,lang:fileType }); 
     }
 
     let runFile = e => {
-        console.log(" file being run. ")
         return runProjectRendering({
             filepath:path,
             projecttype:project.type,

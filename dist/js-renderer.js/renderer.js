@@ -283,15 +283,19 @@ ipcRenderer.on(E.RUN_GUI, (e, projectData) => {
 ipcRenderer.on(E.UPDATE_GUI, (e, data) => {
   let {
     sourceCode,
-    path
+    path,
+    lang
   } = data;
   let type = CONTAINER_TYPE == "ID" ? "#" : "./";
-  updateJSProcess(data);
-  /*try {
-      ReactDOM.render(window._$TopLevelAppComponent,document.querySelector(`${type}${ROOT_CONTAINER}`));
+
+  switch (lang) {
+    case 'javascript':
+      return updateJSProcess(data);
+
+    case 'css':
+      const StyleElement = document.getElementById(path);
+      StyleElement.textContent = sourceCode;
+      return;
   }
-  catch(e) {
-      console.log(" error obtained ",e);
-  }*/
 });
 //# sourceMappingURL=renderer.js.map
