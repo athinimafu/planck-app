@@ -7,7 +7,6 @@ ipcRenderer.on(E.APP_STARTUP,async () => {
     //initialize application state.
     console.log(" startup ");
     ApplicationState.onApplicationStart().then(mode => { 
-        console.log(" startup ",mode);
         return ipcRenderer.send(E.UI_READY,mode); 
     });
 

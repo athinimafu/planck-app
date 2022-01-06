@@ -9,19 +9,19 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _javascript = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/javascript.jsx"));
+var _javascript = _interopRequireDefault(require("../icons/javascript.jsx"));
 
-var _closedFolder = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/closedFolder.jsx"));
+var _closedFolder = _interopRequireDefault(require("../icons/closedFolder.jsx"));
 
-var _openDir = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/openDir.jsx"));
+var _openDir = _interopRequireDefault(require("../icons/openDir.jsx"));
 
-var _HtmlIcon = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/HtmlIcon.jsx"));
+var _HtmlIcon = _interopRequireDefault(require("../icons/HtmlIcon.jsx"));
 
-var _JsonIcon = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/JsonIcon.jsx"));
+var _JsonIcon = _interopRequireDefault(require("../icons/JsonIcon.jsx"));
 
-var _CssIcon = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/CssIcon.jsx"));
+var _CssIcon = _interopRequireDefault(require("../icons/CssIcon.jsx"));
 
-var _CancelIcon = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/CancelIcon.jsx"));
+var _CancelIcon = _interopRequireDefault(require("../icons/CancelIcon.jsx"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

@@ -17,6 +17,7 @@ const ProcessGUI = {
         this._process_running = false;
     },
 
+    
     /**set language currently in use in the project. */
     setLanguage(lang) { this._lang = lang; },
 

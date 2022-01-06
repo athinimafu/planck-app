@@ -3,7 +3,6 @@ const E = require("./events");
 const path = require('path');
 const DirectoryActions  = require("./directoryActions");
 const ModelProcess = require("./languages");
-console.log(" Current model process ",ModelProcess);
 const menu = new Menu();
 
 let LanProcess = null;
@@ -108,13 +107,15 @@ const ProcessWindowSetup = ({ indexpath,processData }) => {
             return;
         }
         ProcessWindow.webContents.openDevTools({ mode:"detach" })
-           
+     
+        ProcessWindow.on("close",() => 
+        {
+            ipcSend(mainWindow,E.PROCESS_STOPPED);
+        })
+
         resolve(true); 
-        console.log(" process window created ");
-        
         ipcSend(ProcessWindow,E.RUN_GUI,processData);    
         ipcMain.on(E.UI_READY,(e,from) => {
-            console.log(" ui process ready ");
             if (from == "process") ProcessWindow.show()
         } )
     })
@@ -127,11 +128,9 @@ const createWindow = () => {
     AppSetUp().then(() => {
     //ipcSend functionality
         ipcSend(mainWindow,E.APP_STARTUP,{}).then(() => {
-            //console.log(" application startup ",path.resolve(__dirname,"../dist/index.html"))
             //mainWindow.webContents.openDevTools({ mode:"detach" });
-            ipcMain.once(E.UI_READY,(e,mode) => {;
+            ipcMain.once(E.UI_READY,(_,mode) => {;
                 //set current mode;
-                console.log(" user id ready ",path.resolve(__dirname,'../dist/index.html'));
                 currentMode = mode;
 
                 nativeTheme.themeSource = mode;
@@ -193,8 +192,23 @@ ipcMain.on(E.DIR_PRESENT,(e,present) => {
     //new directory creation
     globalShortcut.register("Ctrl+n",() => newNode('file'));
     globalShortcut.register("Ctrl+d",() => newNode('directory'));
+})
 
+ipcMain.on(E.OPEN_FILES_PRESENT,async (e,openFiles) => 
+{
+    await Promise.all(
+        Object.keys(openFiles).map(async file => {
+            let { path } = openFiles[file];
+            let sourceCode = '';
+            try {
+                sourceCode = await DirectoryActions.readFromFile(path);
+            }
+            catch(e) {}
+            openFiles[file].sourceCode = sourceCode;
+    }))
 
+    //send data over the main window.
+    ipcSend(mainWindow,E.OPEN_FILES_PRESENT,openFiles);
 })
 
 ipcMain.on(E.NEW_FILE,async (e,filepath) => { 

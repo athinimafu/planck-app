@@ -7,10 +7,9 @@
   "index": "src/index.js",
   "indexHtml": "dist/index.html",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "start": "electron .",
+    "pack":"electron-builder --dir",
+    "dist":"electron-builder",
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],
@@ -19,36 +18,16 @@
     "email": "zanoxstoner@gmail.com"
   },
   "license": "MIT",
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "planck_app"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
+  "build":{
+    "appId":"planck.web.dev.text.editor.app",
+    "linux":{
+      "target":"deb",
+      "category":"Development"
     }
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "localforage": "^1.9.0",
+    "localforage": "^1.10.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
@@ -64,7 +43,8 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.54",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
     "@electron-forge/maker-zip": "^6.0.0-beta.54",
-    "electron": "13.1.4",
+    "electron": "^16.0.6",
+    "electron-builder": "^22.14.5",
     "grunt": "^1.4.1",
     "grunt-babel": "^8.0.0",
     "load-grunt-tasks": "^5.1.0",

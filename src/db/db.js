@@ -1,6 +1,5 @@
 const _lf = require("localforage");
 const path = require("path");
-const { currentFileDetermination } = require(".");
 const Directory = require("./directory");
 
 const DirFunctions = new Directory();
@@ -74,7 +73,6 @@ const Fonst = {
 	* @returns Promise<{}> object -> resolves when all values and keys have been set.
 	*/
 	setValues(values) {
-        //console.log(" setting values ",values);
 		return Promise.all(values.map(({key,value}) => this._setItem(key,value)))
 	},
 	
@@ -194,7 +192,6 @@ const Fonst = {
         }
         catch(e) {}
         for ( let filename of Object.keys(openFiles) ) {
-            console.log(" updated open files ",updatedOpenFiles[filename]);
             if (currentFile && currentFile.path == updatedOpenFiles[filename].path) {
                 currentFile.sourceCode = updatedOpenFiles[filename].sourceCode;
             }
@@ -235,7 +232,6 @@ const Fonst = {
             openFiles = await this.getValue('openFiles');
         }
         catch(e) { console.log(" unable to obtain mapped open files, ",e) }
-        console.log(" mapped children ",children);
         let updatedValues = [
             { key:'currentDirectory',value:currentDirectory},
             { key:'project',value:{ type:project_type,path:filepath,dependencies:[] } }
@@ -291,7 +287,6 @@ const Fonst = {
         }
         catch(e) {}
         //make appropriate manipulations to the current directory.
-        console.log(" toggle here  problem");
         currentDirectory = DirFunctions.changeDir(currentDirectory,paths,this._toggle);
 
         return await this.setValue("currentDirectory",currentDirectory);
@@ -312,7 +307,6 @@ const Fonst = {
         let updatedValues = [];
         let oparray = Object.keys(openFiles);
         let currentFile = {};
-        //console.log(' open files ',openFiles);
         if (openFiles[filename].isCurrent) {
             //then currentFile must be updated obtain the first file open and set that as 
             //the new currentFile.
@@ -338,7 +332,6 @@ const Fonst = {
                     //update values in db.
                     let updatedFile = "";
                     for (let file of oparray ) {
-                        //console.log(' filename ',file);
                         if (file != filename) {  updatedFile = file;break; }
                     }
                     //delete closed file.
@@ -346,7 +339,6 @@ const Fonst = {
                     //update value of new currentFile.
                     //new current file values.
                     currentFile = openFiles[updatedFile];
-                    //console.log(' new current file ',currentFile);
                     updatedValues = updatedValues.concat({key:'currentFile',value:currentFile});
                     openFiles[updatedFile] = { ...currentFile,isCurrent:true };
                     break;
@@ -366,7 +358,6 @@ const Fonst = {
     async newNode({ nodename,nodepath,nodetype })
     {
         //add the new file to the current directory.
-        console.log(" file path of new node ",nodepath," nam of new node ",nodename);
         let currentDirectory = {};
         let _newNode = {};
         if (nodetype == 'file') {
@@ -395,7 +386,6 @@ const Fonst = {
                 isdir:true
             }       
         }
-        console.log(" node path ",nodepath);
         let _change = (directory) => 
             {  
                 let children = directory.children;
@@ -407,7 +397,6 @@ const Fonst = {
             currentDirectory = await this.getValue('currentDirectory');
             //change directory add new file to directory whose path matches that given
             currentDirectory = await DirFunctions.changeDir(currentDirectory,nodepath.split('/'),_change);
-            //console.log(" updated directory with new node ",currentDirectory);
             return this.setValue('currentDirectory',currentDirectory);
         }
         catch(e) { /* unable to mutate current directory. */console.log(' error has occured ',e); }
@@ -427,7 +416,6 @@ const Fonst = {
         {     
             if (typeof value == "function") 
             {
-                //console.log(" function found ",value);
                 openFiles[key] = value(openFiles);
             }
             else openFiles[key] = value; 
@@ -448,7 +436,6 @@ const Fonst = {
         let filename = parts[parts.length-1];
         let currentFile = this.curFileFormat({ filename,sourceCode,filepath });
         //set file in the list of currently open file.
-        console.log(' opening  ',filename);
         openFilesActions.push(
             { 
                 key:filename,
@@ -463,7 +450,6 @@ const Fonst = {
         //list of updated values which will be set in the database.
         //if file has been previously opened.
         if (prevOpenFilePath) {
-            console.log(' previously opened file present ');
             let prevpath = prevOpenFilePath.split('/');
             let prevfilename = prevpath[prevpath.length-1];
             openFilesActions.push(
@@ -488,7 +474,6 @@ const Fonst = {
             }
             //update previously opened file in currentDirectory
             await this.mutateOpenFiles({ actions:openFilesActions });
-            //console.log(" updated all  openFiles");
         }
         catch(e) { console.log(" error obtained ",e); }
         //set values in database.
@@ -548,15 +533,7 @@ const Fonst = {
         return await this.setValues(updatedFiles);
     },
 
-    async closeCurrentDirectory() {
-        let currentValues = [
-            { key:"currentDirectory",value:_SCHEMA.currentDirectory },
-            { key:"appState",value:null },
-            { key:"currentFile",value:_SCHEMA.currentFile }
-        ];
-        //set db values.
-        return await this.setValues(currentValues);
-    }
+    async closeCurrentDirectory() { return this.deleteDB(); }
 }
 
 window.AppState = Fonst;

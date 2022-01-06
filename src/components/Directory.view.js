@@ -1,12 +1,12 @@
 import React        from 'react';
 import PropTypes    from 'prop-types';
-import JsIcon       from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/javascript.jsx";
-import ClosedFolder from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/closedFolder.jsx";
-import OpenFolder   from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/openDir.jsx";
-import HtmlIcon     from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/HtmlIcon.jsx";
-import JsonIcon     from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/JsonIcon.jsx";
-import CssIcon      from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/CssIcon.jsx";
-import CancelIcon   from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/CancelIcon.jsx";
+import JsIcon       from "../icons/javascript.jsx";
+import ClosedFolder from "../icons/closedFolder.jsx";
+import OpenFolder   from "../icons/openDir.jsx";
+import HtmlIcon     from "../icons/HtmlIcon.jsx";
+import JsonIcon     from "../icons/JsonIcon.jsx";
+import CssIcon      from "../icons/CssIcon.jsx";
+import CancelIcon   from "../icons/CancelIcon.jsx";
 let fileTypes = { 'javascript':JsIcon,'html':HtmlIcon,'json':JsonIcon,'css':CssIcon };
 
 let DirectoryComponents = [];

@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import JsIcon from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/javascript.jsx";
-import CssIcon from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/CssIcon.jsx";
-import HtmlIcon from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/HtmlIcon.jsx";
-import JsonIcon from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/JsonIcon.jsx";
-import SaveIcon from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/Saved.jsx";
-import UnSavedIcon from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/UnSaved.jsx";
-import RunIcon  from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/runFile.jsx";
-import CancelIcon from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/CancelIcon.jsx";
+import JsIcon from "../icons/javascript.jsx";
+import CssIcon from "../icons/CssIcon.jsx";
+import HtmlIcon from "../icons/HtmlIcon.jsx";
+import JsonIcon from "../icons/JsonIcon.jsx";
+import SaveIcon from "../icons/Saved.jsx";
+import UnSavedIcon from "../icons/UnSaved.jsx";
+import RunIcon  from "../icons/runFile.jsx";
+import CancelIcon from "../icons/CancelIcon.jsx";
 
 const types ={ 'javascript':JsIcon,'html':HtmlIcon,'json':JsonIcon,'css':CssIcon };
 

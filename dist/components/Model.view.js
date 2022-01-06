@@ -9,7 +9,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _CancelIcon = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/CancelIcon.jsx"));
+var _CancelIcon = _interopRequireDefault(require("../icons/CancelIcon.jsx"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

@@ -140,6 +140,14 @@ module.exports = {
         });
     },
 
+
+    //functionality updates open files object.
+    
+    async updateOpenFiles(openFiles)
+    {
+        return this.stateChange( db.setValue("openFiles",openFiles) );
+    },
+
     //inform ui state of creation of a new file.
     async newNodeCreationPrompt(nodepath,type) {
         console.log(' creating node in filepath ',nodepath);

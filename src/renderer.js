@@ -3,8 +3,6 @@ const GUIUpdater = require("./ChildProcessUpdater");
 const ApplicationState = require("./db");
 const E = require("./events");
 const _path = require('path');
-const { windowsStore } = require("process");
-
 
 /** in the case of an application startup we set application ui 
  * according to one of 3 possible cases:
@@ -37,16 +35,29 @@ ipcRenderer.on(E.NEW_FOLDER,(e,{ canceled,filePaths }) => {
     ApplicationState.newNodeCreationPrompt(filePaths[0],'directory');
 })
 
+ipcRenderer.on(E.OPEN_FILES_PRESENT,(e,openFiles) => {
+    //update all the open files.
+    ApplicationState.updateOpenFiles(openFiles);
+})
+
+ipcRenderer.on(E.PROCESS_STOPPED, e => {
+    ApplicationState.updateGUIState([ { key:"isRunning",value:false } ])   //set the gui state flag to not running
+})
+
 /** in the event where knowledge of whether directory is already open is needed.*/
 ipcRenderer.on(E.DIR_PRESENT,async (e) => {
-    let currentDirectory,project;
+    let currentDirectory,project,openFiles;
     try {
         //current directory.
-        currentDirectory = await ApplicationState.getDBValues('currentDirectory');
-        project          = await ApplicationState.getDBValues('project');
-        openFiles        = await ApplicationState.getDBValues('openFiles');
+        currentDirectory = (await ApplicationState.getDBValues('currentDirectory')) || {};
+        project          = (await ApplicationState.getDBValues('project')) || {};
+        openFiles        = (await ApplicationState.getDBValues('openFiles')) || {};
     }
     catch(e) {}
+    console.log(" open files ",openFiles);
+    if ( Object.keys(openFiles).length > 0 ) {
+        ipcRenderer.send(E.OPEN_FILES_PRESENT,openFiles);
+    }
     //also determine whether a currentFile already exists.
     ApplicationState.currentFileDetermination();
     console.log(" currentDirectory ",currentDirectory);
@@ -55,8 +66,8 @@ ipcRenderer.on(E.DIR_PRESENT,async (e) => {
         currentDirectory = _path.resolve(currentDirectory.path,currentDirectory.name);
         ApplicationState.openDirectory(currentDirectory,project.type,true);
         ApplicationState.getOpenFilesData();;
+        ipcRenderer.send(E.DIR_PRESENT,{currentDirectory,PROJECT_TYPE:project.type });
     }
-    ipcRenderer.send(E.DIR_PRESENT,{currentDirectory,PROJECT_TYPE:project.type });
 })
 
 /**save current file being worked on. */

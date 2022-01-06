@@ -77,7 +77,7 @@ const AppContainerComponent = ({ session,appData,functionality }) => {
             main = 'main';
             break;
         default:
-            componentState = { openDirectory:functionality.openDirectory,openFile };
+            componentState = { openDirectory:functionality.openDirectory };
             AppComponents.push(<WelcomeComponent { ...componentState } key='welcome-one' />)
             break;    
     }

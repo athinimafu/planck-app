@@ -120,8 +120,7 @@ const AppContainerComponent = ({
 
     default:
       componentState = {
-        openDirectory: functionality.openDirectory,
-        openFile
+        openDirectory: functionality.openDirectory
       };
       AppComponents.push( /*#__PURE__*/_react.default.createElement(_WelcomeComponent.default, _extends({}, componentState, {
         key: "welcome-one"

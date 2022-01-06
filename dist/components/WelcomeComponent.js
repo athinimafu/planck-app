@@ -9,21 +9,16 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _openDir = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/openDir.jsx"));
+var _flower = _interopRequireDefault(require("../icons/flower.jsx"));
 
-var _flower = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/flower.jsx"));
+var _HtmlIcon = _interopRequireDefault(require("../icons/HtmlIcon.jsx"));
 
-var _edit = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/edit.jsx"));
-
-var _HtmlIcon = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/HtmlIcon.jsx"));
-
-var _JsIcon = _interopRequireDefault(require("/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/JsIcon.jsx"));
+var _JsIcon = _interopRequireDefault(require("../icons/JsIcon.jsx"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const WelcomeComponent = ({
-  openDirectory,
-  openFile
+  openDirectory
 }) => {
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "welcome-component basic-default"

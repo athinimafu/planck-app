@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CancelIcon from "/home/uncle-shaggy/programs/projects/planck/planck_app/dist/icons/CancelIcon.jsx";
+import CancelIcon from "../icons/CancelIcon.jsx";
 
 const Model = ({ func,cancelFunc,type })  => {
     console.log(" node type ",type);
