@@ -8,8 +8,8 @@
   "indexHtml": "dist/index.html",
   "scripts": {
     "start": "electron .",
-    "pack":"electron-builder --dir",
-    "dist":"electron-builder",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],
@@ -18,15 +18,18 @@
     "email": "zanoxstoner@gmail.com"
   },
   "license": "MIT",
-  "build":{
-    "appId":"planck.web.dev.text.editor.app",
-    "linux":{
-      "target":"deb",
-      "category":"Development"
+  "build": {
+    "appId": "planck.web.dev.text.editor.app",
+    "linux": {
+      "target": "deb",
+      "category": "Development"
     }
   },
   "dependencies": {
+    "electron-log": "^4.4.4",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-unhandled": "^3.0.2",
+    "grunt-cli": "^1.4.3",
     "localforage": "^1.10.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",

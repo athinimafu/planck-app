@@ -190,8 +190,11 @@ textarea {
 }
 
 .dashboard-file-name {
-    min-width: 20%;
-    max-width: 20%;
+    min-width: 25%;
+    max-width: 25%;
+    min-height: 5%;
+    max-height: 5%;
+    overflow-x:auto;
     flex:1;
     display: inline-block;
     background-color: rgb(14,14,14);
@@ -201,8 +204,11 @@ textarea {
     background-color: rgb(24,24,24);
 }
 .dashboard-file-name-current {
-    min-width: 20%;
-    max-width:20%;
+    min-width: 25%;
+    max-width:25%;
+    min-height: 5%;
+    max-height: 5%;
+    overflow-x: auto;
     flex:1;
     display: inline-block;
     background-color: rgb(24,24,24);
@@ -215,10 +221,11 @@ textarea {
     max-width:100%;
     display:flex;
     width:100%;
-    min-height: 5%;
-    max-height: 5%;
+    min-height: 4%;
+    max-height: 4%;
     margin-top: 1%;
     padding-bottom:0;
+    position:static;
 
 }
 
@@ -371,11 +378,19 @@ span.block-raised {
 .file-path {
     font-size: 22px;
     margin-bottom:4%;
+    position: static;
 }
 
 .folder-name {
     color:rgb(80,80,245);
 }
+
+.string-file-name {
+    overflow-x: scroll;
+    max-width: 20%;
+    min-width: 20%;
+}
+
 
 .cancel-icon {
     background-color: rgb(14,14,14);   

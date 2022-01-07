@@ -63,7 +63,8 @@ const OpenFilesComponent = ({
 
     let Icon = file.isSaved ? _CancelIcon.default : () => {
       return '';
-    };
+    }; //let trunc = filename.length > 15 ? `${filename.substring(0,15)}...`:filename;
+
     let className = file.isCurrent ? 'dashboard-file-name-current' : 'dashboard-file-name';
     return /*#__PURE__*/_react.default.createElement("div", {
       className: className,
@@ -72,7 +73,9 @@ const OpenFilesComponent = ({
     }, /*#__PURE__*/_react.default.createElement(FileIcon, {
       className: "file-icon",
       key: `${filename}-${file.fileType}-${index}`
-    }), /*#__PURE__*/_react.default.createElement("span", null, filename), /*#__PURE__*/_react.default.createElement(Icon, {
+    }), /*#__PURE__*/_react.default.createElement("span", {
+      className: "string-file-name"
+    }, filename), /*#__PURE__*/_react.default.createElement(Icon, {
       className: "file-icon",
       key: `${filename}-${index}-icon`,
       onClick: onClose

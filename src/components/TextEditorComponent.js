@@ -33,13 +33,15 @@ const OpenFilesComponent = ({ showFile,closeFile,openFiles,currentFile }) => {
         let FileIcon = types[file.fileType] || (() => { return ''; });
         let Icon = file.isSaved ? CancelIcon : () => { return ''; };
 
+        //let trunc = filename.length > 15 ? `${filename.substring(0,15)}...`:filename;
+
         let className = file.isCurrent ? 'dashboard-file-name-current':'dashboard-file-name';
         return (
             <div className={className} onClick={onDisplay} key={`${filename}-${index}`}> 
                 <FileIcon 
                     className="file-icon" 
                     key={`${filename}-${file.fileType}-${index}`} />
-                <span>{ filename }</span>
+                <span className="string-file-name" >{ filename }</span>
                 <Icon className='file-icon' key={`${filename}-${index}-icon`}  onClick={onClose} />
             </div>
         );
