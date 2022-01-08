@@ -10,6 +10,7 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
+    "postinstall": "electron-builder install app-deps",
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],

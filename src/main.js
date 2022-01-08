@@ -54,6 +54,8 @@ function initJSProject(directory) {
 
 }
 
+app.removeAllListeners('ready')
+
 const ipcSend = (currentWindow,channel,data) => { 
     return new Promise(resolve => {
         if (currentWindow == undefined) {
@@ -152,7 +154,7 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.once('ready', createWindow);
 
 app.whenReady().then(() => {
     globalShortcut.register("Ctrl+S",() => {
