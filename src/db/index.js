@@ -116,7 +116,6 @@ module.exports = {
             console.log(`directory unable to be loaded ${e}`);
             return;
         }       
-        console.log( " mapping directory ",map_dir," dir ",dir);
         return this.stateChange(db.newDirectory(directory_path,dir,dir_type,map_dir));
     },
 

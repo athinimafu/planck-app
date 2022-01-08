@@ -261,7 +261,7 @@ const Fonst = {
    * @param mappingDir     boolean value of whether or not this is simply updating directory
   */
   async newDirectory(filepath, children, project_type, mappingDir = false) {
-    let to_dir = filepath.split('/');
+    let to_dir = filepath.split(path.sep);
     let dirname = to_dir[to_dir.length - 1];
     let currentDirectory = {
       name: dirname,
@@ -272,14 +272,6 @@ const Fonst = {
       isExpanded: true,
       isdir: true
     };
-    let openFiles;
-
-    try {
-      openFiles = await this.getValue('openFiles');
-    } catch (e) {
-      console.log(" unable to obtain mapped open files, ", e);
-    }
-
     let updatedValues = [{
       key: 'currentDirectory',
       value: currentDirectory
@@ -596,6 +588,7 @@ const Fonst = {
       });
     } catch (e) {
       console.log(" error obtained ", e);
+      throw e;
     } //set values in database.
 
 

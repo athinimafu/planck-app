@@ -1,4 +1,4 @@
-{
+ {
   "name": "planck_app",
   "productName": "planck_app",
   "version": "1.0.0",
@@ -10,7 +10,6 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "postinstall": "electron-builder install app-deps",
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],
@@ -24,6 +23,9 @@
     "linux": {
       "target": "deb",
       "category": "Development"
+    },
+    "win": {
+      "target": "squirrel"
     }
   },
   "dependencies": {

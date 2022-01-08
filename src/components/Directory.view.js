@@ -91,7 +91,7 @@ const Directory = ({  directory,openFile,full,toggleFolder,path,closeDirectory,c
     const className = full ? "col-md-12 side":"directory-side";
     //obtain Components.
     //console.log(" directory children ",directory.children);
-    let displayName = full ? path:path.split('/')[path.split('/').length-1]
+    let displayName = full ? path:path.split('/')[path.split('/').length]
     let dirName  = full ? 'offset-md-1 col-md-6':'';
     if (DirectoryComponents.length > 0) DirectoryComponents = [];
     Components({ directory:directory.children,level:'|',openFile,toggleFolder,currentFile })

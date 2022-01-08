@@ -161,6 +161,7 @@ const functionality = {
 
       if (canceled == true) return; //call ApplicationState.
 
+      console.log(" opening directory ", filePaths[0]);
       ApplicationState.openDirectory(filePaths[0], projecttype, false);
     });
   },

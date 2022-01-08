@@ -272,6 +272,7 @@ async function newNode(type) {
         }
         return dialog.showOpenDialog(mainWindow,dialogOptions).then(async data => {
             //once directory selected enable global shortcut for new file creation.
+            console.log(" open directory data ",data);
             globalShortcut.register("Ctrl+n",() => newNode('file'));
             //along with a global shortcut for new directory creation.
             globalShortcut.register("Ctrl+d",() => newNode("directory"));
