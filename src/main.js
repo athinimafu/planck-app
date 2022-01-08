@@ -6,13 +6,15 @@ const ModelProcess = require("./languages");
 const menu = new Menu();
 const unhandled = require("electron-unhandled");
 const logger = require("electron-log");
+const os  = require("os");
 
 logger.info(" file loaded ");
 let LanProcess = null;
 
 try {
-app.setAppLogsPath("/home/uncle-shaggy/LOGS/");
-console.log(app.getPath("appData"));
+    if (os.platform() == "linux")
+        app.setAppLogsPath("/home/uncle-shaggy/LOGS/");
+    
 
 menu.append(
     new MenuItem({
