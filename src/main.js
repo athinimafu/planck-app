@@ -1,21 +1,19 @@
 const { BrowserWindow, ipcMain,nativeTheme,dialog,app,Menu,MenuItem,globalShortcut } = require("electron")
 const E = require("./events");
 const path = require('path');
-const DirectoryActions  = require("./directoryActions");
-const ModelProcess = require("./languages");
+const DirectoryActions  = require("./src/directoryActions");
+const ModelProcess = require("./src/languages");
 const menu = new Menu();
 const unhandled = require("electron-unhandled");
 const logger = require("electron-log");
-const os  = require("os");
+
+console.log(" app data ",app.getPath("appData"));
 
 logger.info(" file loaded ");
 let LanProcess = null;
-
+const executable_path = app.getPath("temp").replace(/(temp|Temp)/g,'');
+logger.log(" path ",executable_path);
 try {
-    if (os.platform() == "linux")
-        app.setAppLogsPath("/home/uncle-shaggy/LOGS/");
-    
-
 menu.append(
     new MenuItem({
         label:'File',
@@ -40,21 +38,18 @@ let CURRENT_DIRECTORY;
 
 const _PROJECTS = {
     'html':{ 
-        index:path.resolve(__dirname,"../dist/html-renderer.js/index.html") 
+        index:path.resolve(__dirname,"./html-renderer.js/index.html") 
     },
     'javascript':{ 
-        index:path.resolve(__dirname,"../dist/js-renderer.js/index.html") 
+        index:path.resolve(__dirname,"./js-renderer.js/index.html") 
     }
 }
 
 let currentMode = "";
 let mainWindow    = null;
 let ProcessWindow = null;
+let process_started = false;
 
-function initJSProject(directory) { 
-    /** initialise javascript process. */ 
-
-}
 
 app.removeAllListeners('ready')
 
@@ -81,16 +76,18 @@ const AppSetUp = () => {
                 nodeIntegration:true, 
                 nodeIntegrationInSubFrames:true,
                 nodeIntegrationInWorker:true,
-                preload:path.join(__dirname,"./preload.js"),
+                preload:path.join(__dirname,"./preload-bundled.js"),
                 contextIsolation:false
             }
         })
         //open main window devtools.
         mainWindow.webContents.openDevTools({ mode:"detach" });
         //load file.
-        mainWindow.loadFile(path.resolve(__dirname,"../dist/index.html"));
-        logger.info(" application set up complete. ");
-        
+        mainWindow.loadFile(path.resolve(__dirname,"./index.html"));
+        logger.info(" application set up complete. "); 
+        mainWindow.on("close",() => {
+            if (process_started) ProcessWindow.close();
+        })       
         resolve();
 
     })
@@ -122,6 +119,7 @@ const ProcessWindowSetup = ({ indexpath,processData }) => {
         })
 
         resolve(true); 
+        process_started = true;
         ipcSend(ProcessWindow,E.RUN_GUI,processData);    
         ipcMain.on(E.UI_READY,(e,from) => {
             if (from == "process") ProcessWindow.show()
@@ -195,7 +193,7 @@ ipcMain.handle(E.UI_MODE_TOGGLE,(e) => {
 ipcMain.on(E.DIR_PRESENT,(e,present) => {
     CURRENT_DIRECTORY = present.currentDirectory;
     PROJECT_TYPE = present.PROJECT_TYPE;
-    LanProcess = new ModelProcess(CURRENT_DIRECTORY,PROJECT_TYPE);
+    LanProcess = new ModelProcess(CURRENT_DIRECTORY,PROJECT_TYPE,executable_path);
     LanProcess.setBaseDir(CURRENT_DIRECTORY);
     //enable global shortcuts for new file creation and
     //new directory creation
@@ -278,7 +276,7 @@ async function newNode(type) {
             globalShortcut.register("Ctrl+d",() => newNode("directory"));
             if (data.canceled) return data;
             CURRENT_DIRECTORY = data.filePaths[0];
-            LanProcess = new ModelProcess(CURRENT_DIRECTORY,PROJECT_TYPE);
+            LanProcess = new ModelProcess(CURRENT_DIRECTORY,PROJECT_TYPE,executable_path);
             console.log(" process ",LanProcess);
             switch(PROJECT_TYPE) {
                 case 'javascript':
@@ -379,6 +377,7 @@ async function newNode(type) {
     {
         try {
             ProcessWindow.close();
+            process_started = false;
         }
         catch(e) { /* process window no longer runnnig*/throw e; }
     })

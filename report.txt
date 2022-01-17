@@ -83,3 +83,8 @@
 
 ✖ 80 problems (80 errors, 0 warnings)
   74 errors and 0 warnings potentially fixable with the `--fix` option.
+Unhandled Promise Rejection
+Error: ERR_FILE_NOT_FOUND (-6) loading 'file:///C:/Users/uncle-shaggy/AppData/Local/planck_app/app-1.0.0/resources/app.asar/dist/html-renderer.js/index.html'
+    at rejectAndCleanup (node:electron/js2c/browser_init:161:7486)
+    at Object.failListener (node:electron/js2c/browser_init:161:7699)
+    at Object.emit (node:events:394:28)

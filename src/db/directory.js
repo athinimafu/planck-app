@@ -45,7 +45,7 @@ class Directory {
     }
 
     isDirA({path,name,parts}) {
-        return `${path}/${name}` == parts.join('/') && name == parts[parts.length-1];
+        return `${path}${_path.sep}${name}` == parts.join(_path.sep) && name == parts[parts.length-1];
     }
 
     /** functionality which mutates only a specific part of the 
@@ -74,7 +74,7 @@ class Directory {
                     console.log(" directory found ",dc);
                     dc[key] = change(dc[key]);
                 }   
-                else if ( this._isPt(dc[key].path,_parts.join('/')) ) {
+                else if ( this._isPt(dc[key].path,_parts.join(_path.sep)) ) {
                     dc[key] = this.changeDir(dc[key],_parts,change);
                 }
             }

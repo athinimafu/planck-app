@@ -23,6 +23,8 @@ var _CssIcon = _interopRequireDefault(require("../icons/CssIcon.jsx"));
 
 var _CancelIcon = _interopRequireDefault(require("../icons/CancelIcon.jsx"));
 
+var _path2 = _interopRequireDefault(require("path"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -55,7 +57,7 @@ const FileComponent = ({
   });
   return /*#__PURE__*/_react.default.createElement("p", {
     className: "list-default",
-    onClick: () => openFile(`${path}/${name}`, currentFile, newlyCreated)
+    onClick: () => openFile(`${path}${_path2.default.sep}${name}`, currentFile, newlyCreated)
   }, /*#__PURE__*/_react.default.createElement("span", {
     className: "level"
   }, " ", level, " "), /*#__PURE__*/_react.default.createElement(FileIcon, {
@@ -157,10 +159,8 @@ const Directory = ({
   closeDirectory,
   currentFile
 }) => {
-  const className = full ? "col-md-12 side" : "directory-side"; //obtain Components.
-  //console.log(" directory children ",directory.children);
-
-  let displayName = full ? path : path.split('/')[path.split('/').length];
+  const className = full ? "col-md-12 side" : "directory-side";
+  let displayName = full ? `${path}${_path2.default.sep}${directory.name}${_path2.default.sep}` : `${directory.name} /`;
   let dirName = full ? 'offset-md-1 col-md-6' : '';
   if (DirectoryComponents.length > 0) DirectoryComponents = [];
   Components({

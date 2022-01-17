@@ -122,6 +122,7 @@ module.exports = {
     //functionality for fetching the current file being worked on.
     async fetchFile() {
         //save database file.
+        if (this.session.currentSourceCode.path.length == 0) return;
         this.functionality.saveFile();
 
         let project = {};

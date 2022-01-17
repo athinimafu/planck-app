@@ -184,7 +184,7 @@ const JavascriptProcess = {
     __setBasePath(_path,additional)
         {
             let _base = '';
-            let adds = additional.split('/');
+            let adds = additional.split(path.sep);
             for (let g = adds.length-1;g >= 0;g--) {
                 if (this._base.includes(adds[g])) break;
                 if (!adds[g].match(/(.jsx|.js|.html|.css)/)) _base = adds[g].concat(`/${_base}`);
@@ -194,15 +194,17 @@ const JavascriptProcess = {
     /** get the path of the file */
     __extractPath(base,dep,parent)
         {
-            let paths = parent.split('/');
+            let paths = parent.split(path.sep);
+            console.log(" extracted paths ",paths);
             let _base = this[base];
+            console.log(" current base ",_base)
             //console.log(' base ',_base,' parent  ',parent);
             for (let g = 0;g <= paths.length-1;g++) {
                 if (paths[g].search(/(.jsx|.js|.html)/) != -1) continue;
 
                 if (!_base.includes(paths[g])) _base = path.resolve(_base,paths[g]);
             }
-            //console.log('DDD',dep.match(NAME_EXP)[0]);console.log('base: ',base,' parent ',parent);console.log(' dependency ',dep.match(NAME_EXP));
+            console.log('DDD',dep.match(NAME_EXP)[0]);console.log('base: ',base,' parent ',parent);console.log(' dependency ',dep.match(NAME_EXP));
             return path.resolve(_base,dep.match(NAME_EXP)[0]);
         },
 
@@ -293,9 +295,9 @@ const JavascriptProcess = {
                 for (let dep of _dependencies) 
                     {
                         //dependency path.
-                        //console.log(" current dependancy ",dep," of parent ",parent);
+                        console.log(" current dependancy ",dep," of parent ",parent);
                         let _depPath = this.__extractPath('main_base',dep,parent) ;
-                        //dependency filename.console.log(" dependency path ",_depPath);
+                        console.log(" dependency path ",_depPath);
                         try {
                             let is_dir = await this.isDir(_depPath);
                             if (is_dir) {/*console.log(' path is directory ',_depPath);*/
@@ -303,6 +305,7 @@ const JavascriptProcess = {
                             }
                         }
                         catch(e) {}    
+                        console.log(" dependency path ",_depPath);
                         let _depName = this.__extractFileName(dep);
                         let depData = this.__parsedependency(dep,_depName);
                         sourceCode = this.__replaceCode({ ...depData,dep },sourceCode)

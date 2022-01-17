@@ -4,6 +4,8 @@ const Directory = require("./directory");
 
 const DirFunctions = new Directory();
 
+const path_sep = path.sep == "\\" ? new RegExp('(\\\\|\\/)','g') : new RegExp('\\/','g')
+
 const A = { 
     DIR_OPEN:"DIRECTORY-OPEN",
     DIR_CLOSED:"DIRECTORY-CLOSED",
@@ -45,7 +47,7 @@ const _dbKeys = [ "appState","currentDirectory","currentFile","SUPPORTED_TYPES",
 const Fonst = {
     getValue( key ) { return _lf.getItem(key); },
 
-    _filepath(p) { return p.split('/');  },
+    _filepath(p) { return p.split(path.sep);  },
 
 	_setItem(k,v) {
 		if ( typeof v == "function" ) {
@@ -114,6 +116,14 @@ const Fonst = {
 
 	//obtain database keys.
 	keys()  { return _lf.keys() },
+
+    determinePathSep(file_path)
+    {
+        if (path.sep == "\\") {
+            return file_path.includes('/') ? '/':path.sep;
+        }
+        return '/';
+    },
 
     /**obtain database values if database exists. */
     async _getDb() 
@@ -216,12 +226,12 @@ const Fonst = {
     */
     async newDirectory(filepath,children,project_type,mappingDir=false) 
     {
-        let to_dir = filepath.split(path.sep);
+        let to_dir = filepath.split(path_sep);
         let dirname = to_dir[to_dir.length-1];
-        
+        let seperator = this.determinePathSep(filepath); 
         let currentDirectory = {
             name:dirname,
-            path:to_dir.filter(t => t != dirname).join('/'),
+            path:to_dir.filter(t => t != dirname).join(seperator),
             currentFile:null,
             children,
             numOfChildren:Object.keys(children).length,
@@ -393,7 +403,7 @@ const Fonst = {
             //obtain the value of the current directory.
             currentDirectory = await this.getValue('currentDirectory');
             //change directory add new file to directory whose path matches that given
-            currentDirectory = await DirFunctions.changeDir(currentDirectory,nodepath.split('/'),_change);
+            currentDirectory = await DirFunctions.changeDir(currentDirectory,nodepath.split(path_sep),_change);
             return this.setValue('currentDirectory',currentDirectory);
         }
         catch(e) { /* unable to mutate current directory. */console.log(' error has occured ',e); }
@@ -427,7 +437,7 @@ const Fonst = {
     prevOpenFile -> string value. whether or not there was a file previously open*/
     async openFile({ filepath,sourceCode,prevOpenFilePath,newlyCreated }) 
     {
-        let parts = filepath.split('/');
+        let parts = filepath.split(path_sep);
         let openFilesActions = [];
         //obtain the current filename for the directory.
         let filename = parts[parts.length-1];
@@ -447,7 +457,7 @@ const Fonst = {
         //list of updated values which will be set in the database.
         //if file has been previously opened.
         if (prevOpenFilePath) {
-            let prevpath = prevOpenFilePath.split('/');
+            let prevpath = prevOpenFilePath.split(path_sep);
             let prevfilename = prevpath[prevpath.length-1];
             openFilesActions.push(
                 { 
@@ -533,5 +543,4 @@ const Fonst = {
     async closeCurrentDirectory() { return this.deleteDB(); }
 }
 
-window.AppState = Fonst;
 module.exports =  Fonst;

@@ -7,6 +7,7 @@ import HtmlIcon     from "../icons/HtmlIcon.jsx";
 import JsonIcon     from "../icons/JsonIcon.jsx";
 import CssIcon      from "../icons/CssIcon.jsx";
 import CancelIcon   from "../icons/CancelIcon.jsx";
+import _path        from "path";
 let fileTypes = { 'javascript':JsIcon,'html':HtmlIcon,'json':JsonIcon,'css':CssIcon };
 
 let DirectoryComponents = [];
@@ -17,7 +18,7 @@ const FileComponent = ({ isSaved,fileType,path,name,level,openFile,currentFile,n
     //console.log(" file icon ",FileIcon);
     let isSavedBlob = isSaved ? '':<span className="is-saved"></span>
     return (
-        <p className="list-default" onClick={() => openFile(`${path}/${name}`,currentFile,newlyCreated) } > 
+        <p className="list-default" onClick={() => openFile(`${path}${_path.sep}${name}`,currentFile,newlyCreated) } > 
             <span className="level" > {level} </span>
             <FileIcon className="file-icon"/>
             <span className="file-pointer" >{ name }</span>
@@ -89,9 +90,7 @@ const Components = ({ directory,level,openFile,toggleFolder,currentFile }) => {
 
 const Directory = ({  directory,openFile,full,toggleFolder,path,closeDirectory,currentFile }) => {
     const className = full ? "col-md-12 side":"directory-side";
-    //obtain Components.
-    //console.log(" directory children ",directory.children);
-    let displayName = full ? path:path.split('/')[path.split('/').length]
+    let displayName = full ? `${path}${_path.sep}${directory.name}${_path.sep}`:`${directory.name} /`;
     let dirName  = full ? 'offset-md-1 col-md-6':'';
     if (DirectoryComponents.length > 0) DirectoryComponents = [];
     Components({ directory:directory.children,level:'|',openFile,toggleFolder,currentFile })

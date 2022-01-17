@@ -11,26 +11,26 @@ class BaseClass {
     /* extracts filename */
     __extractFileName(dependency)
     { 
-        console.log(" dependancy name ",dependency.match(_.NAME_EXP)[0].replace(_.PATH_EXP,''));
-        return dependency.match(_.NAME_EXP)[0].replace('.js','');
+        const pathtofile = dependency.match(_.NAME_EXP)[0];
+        console.log(" dependancy name ",pathtofile);
+        return pathtofile.replace('.js','');
     }
  
     __setBasePath(_path,additional)
     {
         let _base = '';
-        let adds = additional.split('/');
+        let adds = additional.split(path.sep);
         for (let g = adds.length-1;g >= 0;g--) {
             if (this.base_path.includes(adds[g])) break;
             if (!adds[g].match(/(.jsx|.js|.html|.css)/)) _base = adds[g].concat(`/${_base}`);
         }
-        console.log(" base path: "+this.base_path," new base ",_base);
         this.main_path = path.resolve(this.base_path,_base);
     }
     
     /** get the path of the file */
     __extractPath(dep,parent)
     {
-        let paths = parent.split('/');
+        let paths = parent.split(path.sep);
         let _base = this.base_path;
         for (let g = 0;g <= paths.length-1;g++) {
             if (paths[g].search(/(.jsx|.js|.html)/) != -1) continue;

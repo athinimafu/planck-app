@@ -47,6 +47,7 @@ class HtmlCSSParser extends BaseClass {
     {
         //obtain the css dependencies in the html file.
         let dependencies = sourceCode.match(HTML_CSS_LINK_EXP);
+        console.log(" css dependencies ",dependencies);
         if (!dependencies) return;
         //loop through dependencies and add each to dependency map.
         for (let dep of dependencies) {

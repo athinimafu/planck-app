@@ -9,7 +9,16 @@ module.exports = grunt => {
             },
             dist: {
               files: {
+                'main.js':'src/main.js',
                 'dist/app.js': 'src/app.js',
+                "dist/directoryActions.js":"src/directoryActions.js",
+                "dist/languages/index.js":"src/languages/index.js",
+                "dist/languages/base.js":"src/languages/base.js",
+                "dist/languages/regex.js":"src/languages/regex.js",
+                "dist/languages/html/index.js":"src/languages/html/index.js",
+                "dist/languages/js/index.js":"src/languages/js/index.js",
+                "dist/languages/js/JsCompiler.js":"src/languages/js/JsCompiler.js",
+                "dist/languages/js/ReactHandling.js":"src/languages/js/ReactHandling.js",
                 "dist/ChildProcessUpdater.js":"src/ChildProcessUpdater.js",
                 'dist/components/index.js':'src/components/index.js',
                 'dist/components/WelcomeComponent.js':'src/components/WelcomeComponent.js',
@@ -37,12 +46,12 @@ module.exports = grunt => {
                 "dist/icons/UnSaved.jsx":"dist/icons/UnSaved.jsx",
                 "dist/icons/JsIcon.jsx":"dist/icons/JsIcon.jsx",
                 "dist/icons/runFile.jsx":"dist/icons/runFile.jsx",
-                "dist/html-renderer.js/renderer.js":"src/html-renderer.js/renderer.js",
-                "dist/js-renderer.js/renderer.js":"src/js-renderer.js/renderer.js",
+                "html-renderer.js/renderer.js":"src/html-renderer.js/renderer.js",
+                "js-renderer.js/renderer.js":"src/js-renderer.js/renderer.js",
                 "dist/components/Model.view.js":"src/components/Model.view.js",
                 //'dist/icons.':'src/'
-                //'dist/index.js':'src/index.js'/**/
-                //'dist/preload.js':"src/preload.js"
+                'dist/index.js':'src/index.js',
+                'preload.js':"src/preload.js"
               }
             }
         }

@@ -1,12 +1,25 @@
 /**File provides regular expressions used to match patterns of code needed in source code. */
-const __dir = '((\\.\\/)|(\\.\\.\\/)+)';
-const __abs_path = '(\\/\\w+(-|_|\\.)*\\w+)+';
-const __rel_path = '((\\w+(-|_|\\.)*\\w+\\/*)+)';
+const path = require('path');
+const sep = path.sep == '\\' ? '(\\\\|\\/)':'\\/'
+console.log(" path seperator ",sep);
+const __dir = `((\\.\\/)|(\\.\\.\\/)+)`;
+const __abs_path = `(${sep}\\w+(-|_|\\.)*\\w+)+`;
+const __rel_path = `((\\w+(-|_|\\.)*\\w+${sep}*)*)`;
 const __path = `((${__abs_path})|(${__dir}${__rel_path}))`;
 const __ext = '(\\.jsx|\\.js|\\.css)*';
 const __name = `${__path}${__ext}`;
 const __var = `\\w+\\d*\\w*`;
 const __eq  = `\\s*=\\s*`;
+
+function setSepExp(isHtml) 
+{
+    let sep = '';
+    sep = path.sep == '\\' ? '\\\\':'\\/';
+    if (isHtml) sep = '\\/';
+    const __abs_path = `(${sep}\\w+(-|_|\\.)*\\w+)+`;
+    const __rel_path = `((\\w+(-|_|\\.)*\\w+${sep}*)*)`;
+    const __path = `((${__abs_path})|(${__dir}${__rel_path}))`
+}
 
 exports.__dir  = __dir;
 exports.__path = __path;

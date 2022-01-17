@@ -54,13 +54,11 @@ ipcRenderer.on(E.DIR_PRESENT,async (e) => {
         openFiles        = (await ApplicationState.getDBValues('openFiles')) || {};
     }
     catch(e) {}
-    console.log(" open files ",openFiles);
     if ( Object.keys(openFiles).length > 0 ) {
         ipcRenderer.send(E.OPEN_FILES_PRESENT,openFiles);
     }
     //also determine whether a currentFile already exists.
     ApplicationState.currentFileDetermination();
-    console.log(" currentDirectory ",currentDirectory);
 
     if (currentDirectory.path) {
         currentDirectory = _path.resolve(currentDirectory.path,currentDirectory.name);
@@ -151,6 +149,7 @@ const functionality = {
     //functionality to edit gui.
     editFile({ sourceCode,language,isRunning }) 
     {
+        console.log(" file being edited ");
         if (isRunning) /* if gui process is running we update it. */
             {GUIUpdater.updateTime(); console.log(" running code "); }
         return $funcs.editFile({ sourceCode,isRunning,language });

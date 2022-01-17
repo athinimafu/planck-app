@@ -12,7 +12,7 @@ class ModelProcess {
      * project.
      * @param {String} basepath absolute path the project.
      */
-    constructor(basepath="",project_type="") 
+    constructor(basepath="",project_type="",babel_path="") 
     {    
         this._base = basepath;
         this.htmlParser;
@@ -20,6 +20,7 @@ class ModelProcess {
         this.project_type = project_type;
         this.project_init_complete = false;
         this._init = false;
+        this._babel_path = babel_path;
     }
 
     setBaseDir(base) { 
@@ -57,7 +58,7 @@ class ModelProcess {
         //console.log("base ",this._base);
         if (jsFilePath) {
             this.jsFilePath = jsFilePath;
-            this.jsParser = new JsParser({ main_path:jsFilePath,base_path:this._base });
+            this.jsParser = new JsParser({ main_path:jsFilePath,base_path:this._base,_babel:this._babel_path });
             this.jsFound = true;
             this.jsParser.determineFrameWorks(configJSON);                       //determine the frameworks javascript project is using.
         }

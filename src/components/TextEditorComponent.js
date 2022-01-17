@@ -59,6 +59,7 @@ OpenFilesComponent.propTypes = {
 
 const TextEditor = ({ saveFile,currentFile,editFile,data,isNew,runProjectRendering,isRunning,showFile,openFiles,closeFile,stopRenderering,project }) => {
     let { sourceCode,path,name,fileType,isSaved } = data;
+    console.log(" dependency path ",path);
     let updateGUI = (isRunning && project.dependencies.includes(path));
     let FileIcon =  types[fileType] || (() => { return ''; })
     let onClick = (e) => { 
@@ -87,6 +88,7 @@ const TextEditor = ({ saveFile,currentFile,editFile,data,isNew,runProjectRenderi
         window.E = e;
         let doc = document.getElementById('code');
         window.Doc = doc;
+        console.log(" gui running ",updateGUI);
         return editFile({ sourceCode:doc.value,isRunning:updateGUI });
     }
 

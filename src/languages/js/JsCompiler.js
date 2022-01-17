@@ -1,11 +1,24 @@
 const babel = require("@babel/core");
+const os = require("os");
+const _path = require("path");
+
+const WINDOWS = 'Windows_NT';
+const MAC     = 'mac';
+const LINUX   = 'Darwin';
 
 //functionality BabelCompiler is responsible for transpiling code from 
 const BabelCompiler =  {
-    init(options={}) {
-        this._opts = options;
-    },
     
+    resolvePreset(babel_path,preset)
+    {
+        let _sec_path = '';
+        switch(os.type()) {
+            case WINDOWS:
+                _sec_path = 'resources\\app.asar\\node_modules\\@babel';
+        }
+        return _path.resolve(babel_path,_path.resolve(_sec_path,`${preset}${_path.sep}lib${_path.sep}index.js`));
+    },
+
     //transpile code in a file path synchronously.
     //provided with filepath.
     transpileFromFileSync(filepath) 
@@ -27,9 +40,22 @@ const BabelCompiler =  {
         })
     },
     //transpile sourceCode given as argument asynchronously.
-    transpile(sourceCode)
+    transpile(sourceCode,babel_path)
     {
-        return babel.transformAsync(sourceCode,this._opts);
+        console.log(" attempting transpilation. ");
+        const options = {
+            "presets":[
+                this.resolvePreset(babel_path,"preset-env"),
+                this.resolvePreset(babel_path,"preset-react")
+            ],
+            "plugins":[
+                this.resolvePreset(babel_path,"plugin-transform-classes")
+            ],
+            "targets":{
+                "electron":"16.0.6"
+            }
+        };
+        return babel.transformAsync(sourceCode,options);
     }
 }
 

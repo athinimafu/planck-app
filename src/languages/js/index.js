@@ -10,6 +10,7 @@ const BaseParser = require("../base");
 const BabelCompiler = require("./JsCompiler");
 const { readFile  }  = require("fs").promises;
 const _reactHandler = require("./ReactHandling");
+const logger = require("electron-log");
 
 const __req  = `require\\(("|')${_.__name}("|')\\)`;
 const __from = `from\\s+("|')${_.__name}("|')`;
@@ -44,13 +45,14 @@ const SUPPORTED_FRAMEWORKS = [ "react" ];
 
 class JsParser extends BaseParser {
 
-    constructor({ main_path,base_path }) {
+    constructor({ main_path,base_path,_babel }) {
         super({ base_path });
         this.main_path = main_path;
         this.abs_path = _path.resolve(this.base_path,this.main_path);
         this.dependencyMap = {};
         this._isECMA = false;
         this.frameworks = [];
+        this._babel_path = _babel;
     }
 
     async isDir(_path) {
@@ -126,6 +128,7 @@ class JsParser extends BaseParser {
     { 
         if (checkType) {
             let dep = sourceCode.match(ECMA_MOD_EXP);
+
             //if it is an ecmascript module set value to true then return dependencies
             //else extract dependencies to commonjs format regexp.
             dep ? (this._isECMA = true) : (dep = sourceCode.match(COM_JS_EXP));
@@ -147,7 +150,7 @@ class JsParser extends BaseParser {
     */
     async mapdependencies(sourceCode,parent,index,root=false) 
     {
-        let _dependencies = this.__getdependencies(sourceCode,index == 0);  //obtain the dependencies from the sourc code.
+        let _dependencies = this.__getdependencies(sourceCode,index == 0) || [];  //obtain the dependencies from the sourc code.
         let js_dependencies = [];
         try  {
             for (let dep of _dependencies) 
@@ -160,6 +163,7 @@ class JsParser extends BaseParser {
                     }
                 }
                 catch(e) {}
+            
                 js_dependencies.push(_depPath)                  //push dependency path onto list of dependencies.    
                 let _depName = this.__extractFileName(dep);
                 let depData = this.__parsedependency(dep,_depName);
@@ -178,7 +182,7 @@ class JsParser extends BaseParser {
                             
                     depSourceCode = await readFile(`${_depPath}`,{ encoding:'utf-8' });
                 }
-                catch(e) { console.log(" event occured ",e); }
+                catch(e) { console.log(" current event occured ",e); }
                 //update dependency map object.
                 this.dependencyMap[_depPath] = {
                     ...depData,
@@ -229,11 +233,14 @@ class JsParser extends BaseParser {
             //obtain the dependency source code.
             let { sourceCode,variableName } = this.dependencyMap[dependency];
             variableName = variableName || 'Parent';
+            //console.log(" obtained source code ",sourceCode);
             try {
                 //transpile source code.
-                sourceCode = await BabelCompiler.transpile(sourceCode)
+                sourceCode = await BabelCompiler.transpile(sourceCode,this._babel_path)
             }
-            catch(e) { console.log('code',e) }
+            catch(e) { console.log('code',e);logger.error(e); }
+            logger.log(" source code transpiled successfully ");
+            //console.log(" current source code ",sourceCode);
             //console.log(" found ",sourceCode.code.match(EXPORTS_REP_EXP));
             sourceCode = sourceCode.code.replace(EXPORTS_REP_EXP,'');
             sourceCode = this.applyFunctionScope({ sourceCode:sourceCode,variableName, });
@@ -252,7 +259,7 @@ class JsParser extends BaseParser {
     {
         let transpiledCode = '';                                         // declare varaible for transpiled source code.
         try {
-            transpiledCode = await BabelCompiler.transpile(sourceCode);  // pass source code into Babel compiler.
+            transpiledCode = await BabelCompiler.transpile(sourceCode,this._babel_path);  // pass source code into Babel compiler.
         }
         catch(e) { /** unable to transpile code. */ }
         return transpiledCode;            //return transpiled code.
@@ -312,13 +319,13 @@ class JsParser extends BaseParser {
             if (found) _dependencies = this.dependencyMap[data.path]._dependencies;
         }
         catch(e) {}
-        console.log(" updating code... ",_dependencies);
+        //console.log(" updating code... ",_dependencies);
         for (let dep of _dependencies) {
             let _depName = this.__extractFileName(dep);
-            console.log(" current dep name ",_depName);
+            //console.log(" current dep name ",_depName);
             let depData = this.__parsedependency(dep,_depName);
             sourceCode = this.__replaceCode({ ...depData,dep },sourceCode)
-            console.log(" source code extracted ");
+            //console.log(" source code extracted ");
         }
         //parse javascript code.
         let transpiledSourceCode;
@@ -375,15 +382,19 @@ class JsParser extends BaseParser {
         
         console.log(" javascript project transformed ");
         let base_path = "";
-        let paths = this.abs_path.split('/');
+        console.log(" absolute path ",this.abs_path);
+        let paths = this.abs_path.split(_path.sep);
+        console.log(" paths ",paths);
         paths = paths.filter((_,i) => i != paths.length-1);
-        base_path = `${paths.join('/')}/`;
+        base_path = `${paths.join(_path.sep)}${_path.sep}`;
 
+        console.log(" project base path ",base_path);
 
         this.indexData = _reactHandler.mutateIndexCode(this.indexCode);          //mutate index code as well as obtaining data about container element for app.
         this.indexCode = this.indexData.sourceCode;
         this.indexData = { ...this.indexData.info };
 
+        console.log(" current source code ",this.indexCode);
         await this.mapdependencies(this.indexCode,base_path,0,true);
         
         //transpile dependencies intor browser-compatible code.
