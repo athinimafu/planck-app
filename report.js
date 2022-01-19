@@ -1,26 +1,6 @@
 function _$NumbersScope() {
   "use strict";
 
-  function _typeof(obj) {
-    "@babel/helpers - typeof";
-    return (
-      (_typeof =
-        "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
-          ? function (obj) {
-              return typeof obj;
-            }
-          : function (obj) {
-              return obj &&
-                "function" == typeof Symbol &&
-                obj.constructor === Symbol &&
-                obj !== Symbol.prototype
-                ? "symbol"
-                : typeof obj;
-            }),
-      _typeof(obj)
-    );
-  }
-
   window._$Numbers = void 0;
 
   var _react = _interopRequireDefault(require("react"));
@@ -89,7 +69,7 @@ function _$NumbersScope() {
   }
 
   function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    if (call && (typeof call === "object" || typeof call === "function")) {
       return call;
     } else if (call !== void 0) {
       throw new TypeError(
@@ -133,7 +113,7 @@ function _$NumbersScope() {
 
   console.log(" boom!! shaka laka!! ");
 
-  var Numbers = /*#__PURE__*/ (function (_React$Component) {
+  let Numbers = /*#__PURE__*/ (function (_React$Component) {
     _inherits(Numbers, _React$Component);
 
     var _super = _createSuper(Numbers);
@@ -156,13 +136,13 @@ function _$NumbersScope() {
         value: function render() {
           console.log(" mapping numbers ", this.state.numbers);
           console.log(" current props  ", this.props);
-          var $this = this;
+          const $this = this;
           return /*#__PURE__*/ _react.default.createElement(
             "div",
             {
               className: "keyPad col-md-9 ",
             },
-            this.state.numbers.map(function (num, index) {
+            this.state.numbers.map((num, index) => {
               function onClick() {
                 return $this.props.onValue(num);
               } //console.log(`index ${index} number ${num}`);

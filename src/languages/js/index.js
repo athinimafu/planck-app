@@ -45,7 +45,7 @@ const SUPPORTED_FRAMEWORKS = [ "react" ];
 
 class JsParser extends BaseParser {
 
-    constructor({ main_path,base_path,_babel }) {
+    constructor({ main_path,base_path,_babel,packed=false }) {
         super({ base_path });
         this.main_path = main_path;
         this.abs_path = _path.resolve(this.base_path,this.main_path);
@@ -53,6 +53,7 @@ class JsParser extends BaseParser {
         this._isECMA = false;
         this.frameworks = [];
         this._babel_path = _babel;
+        this.packed = packed;
     }
 
     async isDir(_path) {
@@ -236,7 +237,7 @@ class JsParser extends BaseParser {
             //console.log(" obtained source code ",sourceCode);
             try {
                 //transpile source code.
-                sourceCode = await BabelCompiler.transpile(sourceCode,this._babel_path)
+                sourceCode = await BabelCompiler.transpile({ sourceCode,path:this._babel_path,packed:this.packed })
             }
             catch(e) { console.log('code',e);logger.error(e); }
             logger.log(" source code transpiled successfully ");

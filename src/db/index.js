@@ -240,6 +240,15 @@ module.exports = {
                 { key:"newNodeCreation",value:false },{ key:"newNode",value:null } 
             ]);
             return $this.stateChange( db.newNode({ nodename,nodepath,nodetype:type }) );
-        },  
+        },
+        
+        /** toggles directory view */
+        toggleDirectoryView() {
+            return $this.stateChange(
+                $this.setSessionState([
+                    { key:"viewDir",value:!$this.session.viewDir }
+                ])
+            )
+        }
     }
 }

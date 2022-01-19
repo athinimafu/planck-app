@@ -14,7 +14,7 @@ const A = {
 const AppContainerComponent = ({ session,appData,functionality }) => {
     if (appData == null) return '';
     //console.log(" current session state ",session);
-    let { isRunning,time,newNodeCreation,newNode } = session;
+    let { isRunning,time,newNodeCreation,newNode,viewDir } = session;
     let { 
         openFile,toggleFolder,
         closeDirectory,saveFiletoSys,
@@ -22,7 +22,8 @@ const AppContainerComponent = ({ session,appData,functionality }) => {
         showFile,closeFile,
         stopRenderering,
         createNode,
-        cancelNodeCreation
+        cancelNodeCreation,
+        toggleDirView
     } = functionality;
     let { appState,currentDirectory,currentFile,prevAction,project,openFiles } = appData;
     let componentState = {};
@@ -41,7 +42,9 @@ const AppContainerComponent = ({ session,appData,functionality }) => {
                 toggleFolder,
                 full:true,
                 path:currentDirectory.path,
-                closeDirectory 
+                closeDirectory,
+                toggleDirView,
+                viewDir 
             };
             AppComponents.push(<Directory {...componentState} />)
             break;

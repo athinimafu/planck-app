@@ -3,20 +3,26 @@ const os = require("os");
 const _path = require("path");
 
 const WINDOWS = 'Windows_NT';
-const MAC     = 'mac';
-const LINUX   = 'Darwin';
+const MAC     = 'Darwin';
+const LINUX   = 'Linux';
 
 //functionality BabelCompiler is responsible for transpiling code from 
 const BabelCompiler =  {
     
-    resolvePreset(babel_path,preset)
+    resolvePreset({ path,preset,packed })
     {
+        if (!packed) {
+            return `@babel/${preset}`;
+        }
         let _sec_path = '';
         switch(os.type()) {
-            case WINDOWS:
+            case WINDOWS: 
                 _sec_path = 'resources\\app.asar\\node_modules\\@babel';
+                return _path.resolve(path,_path.resolve(_sec_path,`${preset}${_path.sep}lib${_path.sep}index.js`))
+            case LINUX:
+                _sec_path = `resources${_path.sep}app.asar${_path.sep}node_modules${_path.sep}@babel`;
+                return `${path}${_sec_path}/${preset}/lib/index.js`
         }
-        return _path.resolve(babel_path,_path.resolve(_sec_path,`${preset}${_path.sep}lib${_path.sep}index.js`));
     },
 
     //transpile code in a file path synchronously.
@@ -40,16 +46,16 @@ const BabelCompiler =  {
         })
     },
     //transpile sourceCode given as argument asynchronously.
-    transpile(sourceCode,babel_path)
+    transpile({ sourceCode,path,packed })
     {
         console.log(" attempting transpilation. ");
         const options = {
             "presets":[
-                this.resolvePreset(babel_path,"preset-env"),
-                this.resolvePreset(babel_path,"preset-react")
+                this.resolvePreset({ path,preset:"preset-env",packed }),
+                this.resolvePreset({ path,preset:"preset-react",packed })
             ],
             "plugins":[
-                this.resolvePreset(babel_path,"plugin-transform-classes")
+                this.resolvePreset({ path,preset:"plugin-transform-classes",packed })
             ],
             "targets":{
                 "electron":"16.0.6"

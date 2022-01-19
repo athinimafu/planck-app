@@ -11,5 +11,6 @@ module.exports = {
         path:''
     },
     newFileCreation:false,
-    newFile:null
+    newFile:null,
+    viewDir:true
 }

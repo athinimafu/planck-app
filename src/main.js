@@ -6,13 +6,25 @@ const ModelProcess = require("./src/languages");
 const menu = new Menu();
 const unhandled = require("electron-unhandled");
 const logger = require("electron-log");
-
+const os = require('os');
 console.log(" app data ",app.getPath("appData"));
 
 logger.info(" file loaded ");
 let LanProcess = null;
-const executable_path = app.getPath("temp").replace(/(temp|Temp)/g,'');
-logger.log(" path ",executable_path);
+let executable_path = "";
+const WINDOWS = "Windows_NT";
+const LINUX   = "Linux";
+const MAC     = "Darwin";
+
+switch(os.type()) {
+    case WINDOWS:
+        executable_path = app.getPath("temp").replace(/(temp|Temp)/g,'');
+        break;
+    case LINUX:
+        executable_path = "/opt/planck_app/"
+        break;
+} 
+
 try {
 menu.append(
     new MenuItem({
@@ -193,7 +205,12 @@ ipcMain.handle(E.UI_MODE_TOGGLE,(e) => {
 ipcMain.on(E.DIR_PRESENT,(e,present) => {
     CURRENT_DIRECTORY = present.currentDirectory;
     PROJECT_TYPE = present.PROJECT_TYPE;
-    LanProcess = new ModelProcess(CURRENT_DIRECTORY,PROJECT_TYPE,executable_path);
+    LanProcess = new ModelProcess({ 
+        basepath:CURRENT_DIRECTORY,
+        project_type:PROJECT_TYPE,
+        babel_path:executable_path,
+        packed:true
+    });
     LanProcess.setBaseDir(CURRENT_DIRECTORY);
     //enable global shortcuts for new file creation and
     //new directory creation
@@ -276,7 +293,12 @@ async function newNode(type) {
             globalShortcut.register("Ctrl+d",() => newNode("directory"));
             if (data.canceled) return data;
             CURRENT_DIRECTORY = data.filePaths[0];
-            LanProcess = new ModelProcess(CURRENT_DIRECTORY,PROJECT_TYPE,executable_path);
+            LanProcess = new ModelProcess({ 
+                basepath:CURRENT_DIRECTORY,
+                project_type:PROJECT_TYPE,
+                babel_path:executable_path ,
+                packed:true
+            });
             console.log(" process ",LanProcess);
             switch(PROJECT_TYPE) {
                 case 'javascript':

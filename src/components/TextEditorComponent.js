@@ -88,7 +88,6 @@ const TextEditor = ({ saveFile,currentFile,editFile,data,isNew,runProjectRenderi
         window.E = e;
         let doc = document.getElementById('code');
         window.Doc = doc;
-        console.log(" gui running ",updateGUI);
         return editFile({ sourceCode:doc.value,isRunning:updateGUI });
     }
 
@@ -121,6 +120,7 @@ const TextEditor = ({ saveFile,currentFile,editFile,data,isNew,runProjectRenderi
                     spellCheck={false} 
                     autoFocus={false} 
                     onInput={onEdit}
+                    onScroll={e => {  e.stopPropagation() }}
                     //onKeyDown={onEdit}
                     data-source={sourceCode} 
                     defaultValue={sourceCode} ></textarea>

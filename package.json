@@ -1,8 +1,8 @@
 {
   "name": "planck_app",
   "productName": "planck_app",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "version": "1.1.0",
+  "description": "Web development text editor.",
   "main": "main.js",
   "index": "index-bundled.js",
   "indexHtml": "index.html",
