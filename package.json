@@ -10,8 +10,11 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
+    "win-dist":"electron-builder --windows squirrel:arm64",
     "lint": "echo \"No linting configured\"",
     "postinstall": "electron-builder install-app-deps",
+    "release":"electron-builder",
+    "publish":"electron-builder --publish 'always'",
     "unpack":"npx asar extract 'C:\\Users\\uncle-shaggy\\programs\\planck_app\\planck-app\\dist\\win-unpacked\\resources\\app.asar' './dist/unpacked'"
   },
   "keywords": [],
@@ -27,7 +30,8 @@
       "category": "Development"
     },
     "win": {
-      "target": "squirrel"
+      "target": "squirrel",
+      "publish":[ "github" ]
     }
   },
   "dependencies": {

@@ -38,7 +38,8 @@ const AppContainerComponent = ({
     isRunning,
     time,
     newNodeCreation,
-    newNode
+    newNode,
+    viewDir
   } = session;
   let {
     openFile,
@@ -51,7 +52,8 @@ const AppContainerComponent = ({
     closeFile,
     stopRenderering,
     createNode,
-    cancelNodeCreation
+    cancelNodeCreation,
+    toggleDirView
   } = functionality;
   let {
     appState,
@@ -81,7 +83,9 @@ const AppContainerComponent = ({
         toggleFolder,
         full: true,
         path: currentDirectory.path,
-        closeDirectory
+        closeDirectory,
+        toggleDirView,
+        viewDir
       };
       AppComponents.push( /*#__PURE__*/_react.default.createElement(_Directory.default, componentState));
       break;

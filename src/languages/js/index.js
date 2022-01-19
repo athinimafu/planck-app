@@ -260,7 +260,7 @@ class JsParser extends BaseParser {
     {
         let transpiledCode = '';                                         // declare varaible for transpiled source code.
         try {
-            transpiledCode = await BabelCompiler.transpile(sourceCode,this._babel_path);  // pass source code into Babel compiler.
+            transpiledCode = await BabelCompiler.transpile({ sourceCode,path:this._babel_path,packed:this.packed });  // pass source code into Babel compiler.
         }
         catch(e) { /** unable to transpile code. */ }
         return transpiledCode;            //return transpiled code.
@@ -334,7 +334,7 @@ class JsParser extends BaseParser {
             transpiledSourceCode = await this.parseJSCode(sourceCode);
         }
         catch(e) {
-            console.log(" error occured. ",e);
+            logger.log(" error occured. ",e);
         }
         transpiledSourceCode = transpiledSourceCode.code;
 
